@@ -13,7 +13,6 @@ const LanguageSelector = () => {
   const pushme = (language) => {
     const restOfPath = pathname.split("/")[2] || "/";
     const changeLanguage = `/${language}/${restOfPath}`;
-    console.log("changeLanguage: " + changeLanguage);
     push(changeLanguage, changeLanguage, { locale: { language } });
   };
   return (

@@ -23,17 +23,16 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-export default function Home() {
-  const t = "Leadeship";
-  const headerTranslations = "Header";
+export default function home({params:{lang}}) {
   const headerTitles = [
-    { Name: "Who Are We", Link: "/QuienesSomos" },
-    { Name: "Leadership", Link: "/Liderazgo" },
-    { Name: "Ministries", Link: "/Ministerios" },
-    { Name: "Events", Link: "/Eventos" },
-    { Name: "Sermons", Link: "/Sermones" },
-    { Name: "Offerings", Link: "/Ofrenda" },
+    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
+    { Name: "Leadership", Link: `${lang}/Liderazgo` },
+    { Name: "Ministries", Link: `${lang}/Ministerios` },
+    { Name: "Events", Link: `${lang}/Eventos` },
+    { Name: "Sermons", Link: `${lang}/Sermones` },
+    { Name: "Offerings", Link: `${lang}/Ofrenda` },
   ];
+
   return (
     <main className={`${ebG.className} overflow-x-hidden`}>
       <div className="bg-white h-fit w-full flex flex-col text-black">

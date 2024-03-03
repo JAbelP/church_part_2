@@ -24,12 +24,8 @@ export function middleware(request) {
     );
     //we found a duplicate
     if (doubleLanguage) {
-      console.log("languge substring", pathname.substring(4, 7));
-      console.log(" Try to slice this");
-      console.log("request URL", request.url);
       const retunUrl = pathname.slice(0, 4) + pathname.slice(7);
       const url = request.nextUrl.clone().origin + retunUrl;
-      console.log("url", url);
       return NextResponse.redirect(url);
     }
     request.cookies.set("NEXT_LOCALE");
