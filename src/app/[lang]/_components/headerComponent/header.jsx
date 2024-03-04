@@ -7,14 +7,50 @@ import { Hamburger } from "../icons/hamburger";
 // Load the font and assign it to a constant in the module scope
 const TrajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
-
-function Header({headerTitles}) {
+function Header(lang) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
+  let headerTitles = [];
+  console.log("hello world", lang.lang, Object.entries(lang));
 
+  if (lang.lang === "en") {
+    headerTitles = [
+      { Name: "Who Are We", Link: `${lang.lang}/QuienesSomos` },
+      { Name: "Leadership", Link: `${lang.lang}/Liderazgo` },
+      { Name: "Ministries", Link: `${lang.lang}/Ministerios` },
+      { Name: "Events", Link: `${lang.lang}/Eventos` },
+      { Name: "Sermons", Link: `${lang.lang}/Sermones` },
+      { Name: "Offerings", Link: `${lang.lang}/Ofrenda` },
+    ];
+    console.log("we are in English", headerTitles);
+  }
+
+  if (lang.lang === "es") {
+    headerTitles = [
+      { Name: "¿Quiénes Somos?", Link: `${lang.lang}/QuienesSomos` },
+      { Name: "Liderazgo", Link: `${lang.lang}/Liderazgo` },
+      { Name: "Ministerios", Link: `${lang.lang}/Ministerios` },
+      { Name: "Eventos", Link: `${lang.lang}/Eventos` },
+      { Name: "Sermónes", Link: `${lang.lang}/Sermones` },
+      { Name: "Ofrendas", Link: `${lang.lang}/Ofrenda` },
+    ];
+    console.log("we are in Spanish", headerTitles);
+  }
+
+  if (lang.lang === "pt") {
+    headerTitles = [
+      { Name: "Quem Somos Nós", Link: `${lang.lang}/QuienesSomos` },
+      { Name: "Liderança", Link: `${lang.lang}/Liderazgo` },
+      { Name: "Ministérios", Link: `${lang.lang}/Ministerios` },
+      { Name: "Eventos", Link: `${lang.lang}/Eventos` },
+      { Name: "Sermões", Link: `${lang.lang}/Sermones` },
+      { Name: "Ofertas", Link: `${lang.lang}/Ofrenda` },
+    ];
+    console.log("we are in Portugue", headerTitles);
+  }
 
   return (
     <div>
@@ -28,7 +64,7 @@ function Header({headerTitles}) {
                   <p
                     className={`text-black text-3xl font-bold font-[Trajan Pro] underline capitalize tracking-widest`}
                   >
-                  {item.Name}
+                    {item.Name}
                   </p>
                 </div>
               </Link>
@@ -37,7 +73,7 @@ function Header({headerTitles}) {
         </div>
       </div>
       {/* Full Sized Header */}
-      
+
       <div
         className="absolute top-[3.5rem] visible lg:invisible z-30"
         style={{ right: "1.5rem", top: "38px" }}
@@ -52,18 +88,17 @@ function Header({headerTitles}) {
           menuOpen ? "-translate-x-0" : "translate-x-full"
         } text-center text-4xl pt-36`}
       >
-      <ul>
-        {headerTitles.map((header) =>{
-          return (
-          <li className="pb-10" key={header.Name}>
-            <Link href={header.Link}>
-              <div onClick={handleMenuClick}>
-              {header.Name}
-              </div>
-            </Link>
-          </li>)
-        })}
-      </ul>
+        <ul>
+          {headerTitles.map((header) => {
+            return (
+              <li className="pb-10" key={header.Name}>
+                <Link href={header.Link}>
+                  <div onClick={handleMenuClick}>{header.Name}</div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <div
         onClick={handleMenuClick}

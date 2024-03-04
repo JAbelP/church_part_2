@@ -1,31 +1,27 @@
-import Header from "../../../component/headerComponent/header";
-import NewMember from "../../../component/newMemberComponent/newMember";
-import Footer from "../../../component/footerComponent/footer";
+import Header from "@/app/[lang]/_components/headerComponent/header";
+import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
+import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
-import OfrendaForm from "../../../component/ofrendaComponenets/ofrendaForm";
-import LanguageSelector from "../../../component/flagComponents/flagSelector";
-import { useTranslations } from "next-intl";
+import OfrendaForm from "@/app/[lang]/_components/ofrendaComponenets/ofrendaForm";
+import LanguageSelector from "@/app/[lang]/_components/flagComponents/flagSelector";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
-    title: t("OfferingThanksTitle")
+    title: "OfferingThanksTitle"
   };
 }
-export default function Home() {
-  const t = useTranslations("Success");
-  const headerTranslations = useTranslations("Header");
+export default function Home({params:{lang}}) {
   const headerTitles = [
-    { Name: headerTranslations("Who Are We"), Link: "/QuienesSomos" },
-    { Name: headerTranslations("Leadership"), Link: "/Liderazgo" },
-    { Name: headerTranslations("Ministries"), Link: "/Ministerios" },
-    { Name: headerTranslations("Events"), Link: "/Eventos" },
-    { Name: headerTranslations("Sermons"), Link: "/Sermones" },
-    { Name: headerTranslations("Offerings"), Link: "/Ofrenda" },
+    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
+    { Name: "Leadership", Link: `${lang}/Liderazgo` },
+    { Name: "Ministries", Link: `${lang}/Ministerios` },
+    { Name: "Events", Link: `${lang}/Eventos` },
+    { Name: "Sermons", Link: `${lang}/Sermones` },
+    { Name: "Offerings", Link: `${lang}/Ofrenda` },
   ];
 
   return (
@@ -39,7 +35,7 @@ export default function Home() {
         </div>
         <LanguageSelector />
         <div>
-          <div className="lg:text-5xl text-3xl text-center font-bold my-6">{t("Donation")}</div>
+          <div className="lg:text-5xl text-3xl text-center font-bold my-6">{"Donation"}</div>
         </div>
         <Footer />
       </div>

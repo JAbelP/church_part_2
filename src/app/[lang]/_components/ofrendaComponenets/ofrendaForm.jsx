@@ -6,8 +6,8 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
-import { useRouter } from "../../../navigation";
 import Image from "next/image";
+import Router from "next/router";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
@@ -23,7 +23,6 @@ export default function OfrendaForm({
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
-  const router = useRouter();
   // State for the form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -57,7 +56,7 @@ export default function OfrendaForm({
                 name,
                 email,
                 phone,
-                subject:"Ofrenda"
+                subject: "Ofrenda",
               };
 
               const body = JSON.stringify(bodyNoJson);
@@ -67,7 +66,7 @@ export default function OfrendaForm({
                   headers: { "content-type": "application/json;charset=utf-8" },
                   body,
                 });
-                router.push("/Ofrenda/Thanks");
+                Router.push("/Ofrenda/Thanks");
               }
             } else {
               throw new Error(response1.statusText);

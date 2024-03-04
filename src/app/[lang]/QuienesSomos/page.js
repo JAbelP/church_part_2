@@ -8,16 +8,19 @@ import localFont from "next/font/local";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
-
 export async function generateMetadata({ params: { lang } }) {
+
+  
+
 
   return {
     title: "QuienesSomosTitle",
-    description: "QuienesSomosDescription"
+    description: "QuienesSomosDescription",
   };
 }
 
-export default function Home({params:{lang}}) {
+export default function Home({ params: { lang } }) {
+  
   const headerTitles = [
     { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
     { Name: "Leadership", Link: `${lang}/Liderazgo` },
@@ -25,9 +28,16 @@ export default function Home({params:{lang}}) {
     { Name: "Events", Link: `${lang}/Eventos` },
     { Name: "Sermons", Link: `${lang}/Sermones` },
     { Name: "Offerings", Link: `${lang}/Ofrenda` },
-  
   ];
-
+  function MiddlePageText({ header, description }) {
+    return (
+      <div>
+        <h1 className="font-extrabold text-6xl pb-4">{header}</h1>
+        <p className="text-3xl pb-8 px-3">{description}</p>
+      </div>
+    );
+  }
+  console.log("Language",lang)
 
   return (
     <main className={`${ebG.className} overflow-x-hidden`}>
@@ -36,30 +46,29 @@ export default function Home({params:{lang}}) {
           <NewMember />
         </div>
         <div className="mt-13 md:mt-0">
-          <Header headerTitles={headerTitles}/>
+          <Header lang={lang} />
         </div>
+          <MiddlePageText header={"Mission"} description={"WeAreAChurch"} />
         <div className="flex flex-col text-center items-center mt-5">
           <div className={CopperplateBold.className}>
             <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-              {'whoAreWe'}
+              {"whoAreWe"}
             </div>
           </div>
-          <h1 className="font-extrabold text-6xl pb-4">
-          {'Mission'}
-          </h1>
-          <div className="text-3xl pb-8">
-          {'WeAreAChurch'}
-          </div>
+          <h1 className="font-extrabold text-6xl pb-4">{"Mission"}</h1>
+          <div className="text-3xl pb-8">{"WeAreAChurch"}</div>
           <div>
-            <h1 className="font-extrabold text-6xl pb-4">
-            {'Vision'}
-            </h1>
+            <h1 className="font-extrabold text-6xl pb-4">{"Vision"}</h1>
             <p className="text-3xl pb-8 px-3">
-            {'Evangelize and Disciple through the city'}
-              
+              {"Evangelize and Disciple through the city"}
             </p>
           </div>
-          <Image  width={642} height={696} src={"/QuienesSomosSVG/middleEyeCatch.svg"} alt="Beliefs" />
+          <Image
+            width={642}
+            height={696}
+            src={"/QuienesSomosSVG/middleEyeCatch.svg"}
+            alt="Beliefs"
+          />
         </div>
         <Footer />
       </div>

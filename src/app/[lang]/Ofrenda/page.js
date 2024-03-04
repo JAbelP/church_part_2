@@ -1,41 +1,34 @@
-import Header from "../../component/headerComponent/header";
-import NewMember from "../../component/newMemberComponent/newMember";
-import Footer from "../../component/footerComponent/footer";
+import Header from "@/app/[lang]/_components/headerComponent/header";
+import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
+import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
-import OfrendaForm from "../../component/ofrendaComponenets/ofrendaForm";
-import LanguageSelector from "../../component/flagComponents/flagSelector";
-import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
-
+import OfrendaForm from "@/app/[lang]/_components/ofrendaComponenets/ofrendaForm";
+import LanguageSelector from "@/app/[lang]/_components/flagComponents/flagSelector";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
-const CopperplateBold = localFont({ src: "../../../font/CopperplateBold.ttf" });
+const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
-    title: t("OfferingTitle"),
-    description: t("OfferingDescription"),
+    title: "OfferingTitle",
+    description: "OfferingDescription",
   };
 }
 
-export default function Home() {
-  const t = useTranslations("Offering");
-  const headerTranslations = useTranslations("Header");
+export default function Home({params:{lang}}) {
   const headerTitles = [
-    { Name: headerTranslations("Who Are We"), Link: "/QuienesSomos" },
-    { Name: headerTranslations("Leadership"), Link: "/Liderazgo" },
-    { Name: headerTranslations("Ministries"), Link: "/Ministerios" },
-    { Name: headerTranslations("Events"), Link: "/Eventos" },
-    { Name: headerTranslations("Sermons"), Link: "/Sermones" },
-    { Name: headerTranslations("Offerings"), Link: "/Ofrenda" },
+    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
+    { Name: "Leadership", Link: `${lang}/Liderazgo` },
+    { Name: "Ministries", Link: `${lang}/Ministerios` },
+    { Name: "Events", Link: `${lang}/Eventos` },
+    { Name: "Sermons", Link: `${lang}/Sermones` },
+    { Name: "Offerings", Link: `${lang}/Ofrenda` },
   ];
 
   return (
-  <main className={`${ebG.className} overflow-x-hidden`}>
-   <div className="bg-white h-fit w-full flex flex-col text-black">
+    <main className={`${ebG.className} overflow-x-hidden`}>
+      <div className="bg-white h-fit w-full flex flex-col text-black">
         <div className="mt-28 mx-auto md:mt-0">
           <NewMember />
         </div>
@@ -44,16 +37,16 @@ export default function Home() {
         </div>
         <LanguageSelector />
         <OfrendaForm
-          emailText={t("Email")}
-          submitText={t("Submit")}
-          nameText={t("Name")}
-          phoneText={t("Phone")}
-          thanks={t("Thanks")}
-          bibleVerse={t("Verse")}
-          bibleVerseCite={t("cite")}
-          click={t("click")}
-          // bibleVerse={t("Verse")}
-          // bibleVerseCite={t("cite")}
+          emailText={"Email"}
+          submitText={"Submit"}
+          nameText={"Name"}
+          phoneText={"Phone"}
+          thanks={"Thanks"}
+          bibleVerse={"Verse"}
+          bibleVerseCite={"cite"}
+          click={"click"}
+          // bibleVerse={"Verse")}
+          // bibleVerseCite={"cite")}
         />
         <div className="flex flex-col text-center items-center mt-5"></div>
         <Footer />

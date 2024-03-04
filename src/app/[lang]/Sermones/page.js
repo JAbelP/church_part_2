@@ -1,39 +1,33 @@
-import Header from "../../component/headerComponent/header";
-import NewMember from "../../component/newMemberComponent/newMember";
-import Footer from "../../component/footerComponent/footer";
+import Header from "@/app/[lang]/_components/headerComponent/header";
+import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
+import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import localFont from "next/font/local";
-import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
-import LanguageSelector from "../../component/flagComponents/flagSelector";
 import Image from "next/image";
 
-const API_URL = process.env.WORDPRESS_API_URL;
-const CopperplateBold = localFont({ src: "../../../font/CopperplateBold.ttf" });
+const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 // export const metadata = {
 //   title: 'Sermones',
 //   description: 'Escuche Sermones Pasados',
 // }
 export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
     title: "SermonesTitle",
     description: "SermonesDescription",
   };
 }
 
-export default async function Home() {
+export default async function Home({params:{lang}}) {
   // const t = useTranslations("Sermons");
   // const y = useTranslations("SermonsList");
   // const  = useTranslations("Header");
   const headerTitles = [
-    { Name: "Who Are We", Link: "/QuienesSomos" },
-    { Name: "Leadership", Link: "/Liderazgo" },
-    { Name: "Ministries", Link: "/Ministerios" },
-    { Name: "Events", Link: "/Eventos" },
-    { Name: "Sermons", Link: "/Sermones" },
-    { Name: "Offerings", Link: "/Ofrenda" },
+    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
+    { Name: "Leadership", Link: `${lang}/Liderazgo` },
+    { Name: "Ministries", Link: `${lang}/Ministerios` },
+    { Name: "Events", Link: `${lang}/Eventos` },
+    { Name: "Sermons", Link: `${lang}/Sermones` },
+    { Name: "Offerings", Link: `${lang}/Ofrenda` },
   ];
 
   const sermonsList = [
@@ -165,35 +159,34 @@ export default async function Home() {
     },
   ];
 
-  const sermonList = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      query: `query MyQuery2 {
-        posts( where: {categoryName: "Sermons"}) {
-          edges {
-            node {
-              date
-              title(format: RENDERED)
-              sermons {
-                sermontitle
-                sermonimage {
-                  node {
-                    altText
-                    sourceUrl
-                  }
-                }
-                youtubelink
-              }
-            }
-          }
-        }
-      }`,
-    }),
-  });
+  // const sermonList = await fetch(API_URL, {
+  //   method: "POST",
+  //   body: JSON.stringify({
+  //     query: `query MyQuery2 {
+  //       posts( where: {categoryName: "Sermons"}) {
+  //         edges {
+  //           node {
+  //             date
+  //             title(format: RENDERED)
+  //             sermons {
+  //               sermontitle
+  //               sermonimage {
+  //                 node {
+  //                   altText
+  //                   sourceUrl
+  //                 }
+  //               }
+  //               youtubelink
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }`,
+  //   }),
+  // });
 
   return (
     <main className="overflow-x-hidden">
-      <LanguageSelector />
       <div className="bg-white h-fit w-full flex flex-col text-black">
         <div className="lg:m-auto mt-28">
           <NewMember />

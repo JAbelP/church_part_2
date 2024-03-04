@@ -6,7 +6,8 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
-import { useRouter } from "../../../navigation";
+import Router from "next/router";
+
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
@@ -40,11 +41,10 @@ export default function EntirePage({
   header3,
   header4,
   header5,
-  header6
+  header6,
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
-  const router = useRouter();
   // State for the form fields
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -88,7 +88,7 @@ export default function EntirePage({
                 heard,
                 wouldLikeTo,
                 petition,
-                subject:"New Member"
+                subject: "New Member",
               };
 
               const body = JSON.stringify(bodyNoJson);
@@ -98,7 +98,7 @@ export default function EntirePage({
                   headers: { "content-type": "application/json;charset=utf-8" },
                   body,
                 });
-                router.push("/SoyNuevo/Success");
+                Router.push("/SoyNuevo/Success");
               }
             } else {
               throw new Error(response1.statusText);
@@ -115,7 +115,7 @@ export default function EntirePage({
     { Name: Object.values({ header3 }), Link: "/Ministerios" },
     { Name: Object.values({ header4 }), Link: "/Eventos" },
     { Name: Object.values({ header5 }), Link: "/Sermones" },
-    { Name: Object.values({header6}), Link: "/Ofrenda" },
+    { Name: Object.values({ header6 }), Link: "/Ofrenda" },
   ];
 
   return (
