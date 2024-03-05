@@ -16,22 +16,31 @@ const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 // };
 
 export async function generateMetadata({ params: { locale } }) {
-
   return {
     title: "LeadershipTitle",
     description: "LeadershipDescription",
   };
 }
 
-export default function home({params:{lang}}) {
-  const headerTitles = [
-    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
-    { Name: "Leadership", Link: `${lang}/Liderazgo` },
-    { Name: "Ministries", Link: `${lang}/Ministerios` },
-    { Name: "Events", Link: `${lang}/Eventos` },
-    { Name: "Sermons", Link: `${lang}/Sermones` },
-    { Name: "Offerings", Link: `${lang}/Ofrenda` },
-  ];
+export default async function Home({ params: { lang } }) {
+  const version = process.env.SB_DATA_VERSION;
+  const token = process.env.SB_TOKEN;
+  const url = `https://api-us.storyblok.com/v2/cdn/stories/leadership?version=${version}&token=${token}&language=${lang}`;
+  let req = await fetch(url, { next: { revalidate: 10 } });
+  const storyData = await req.json();
+  console.log(storyData.story.content.Pastor[0].Name)
+
+  const {
+    Title,
+    PastorHeader,
+    Pastor,
+    AssociatePastorHeader,
+    AssociatePastores,
+    DeconsHeader,
+    Decons,
+    WorshipLeaderHeader,
+    WorshipLeader,
+  } = storyData.story.content;
 
   return (
     <main className={`${ebG.className} overflow-x-hidden`}>
@@ -41,65 +50,63 @@ export default function home({params:{lang}}) {
         </div>
         <LanguageSelector />
         <div className="mt-13 md:mt-0">
-          <Header headerTitles={headerTitles} />
+          <Header lang={lang} />
         </div>
 
         <div className={CopperplateBold.className}>
           <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-            {"Leadership"}
+            {Title}
           </div>
         </div>
 
         <div className="text-5xl font-medium tracking-widest mx-auto uppercase">
-          {"Pastors"}
+          {PastorHeader}
         </div>
         <div className="flex flex-col">
           <div>
             <SubEyeCatch
-              names={"TOMAS & INGRID RAMIREZ"}
-              imageLocation={"/Leadership/TioyTia1.jpg"}
-              altText={"Pastores: TOMAS Y INGRID RAMIREZ"}
+              names={Pastor[0].Name}
+              imageLocation={Pastor[0].Photo.filename}
+              altText={Pastor[0].Photo.filename}
             />
           </div>
           <div className="text-4xl font-medium tracking-widest uppercase text-center justify-center mx-auto">
-            {"Associate Pastores"}
+            {AssociatePastorHeader}
           </div>
           <div>
             <SubEyeCatch
-              names={"ALDO & BRENDA COLON"}
-              imageLocation={"/Leadership/Colon.jpg"}
-              altText={"PASTOR ASOCIADO: ALDO Y BRENDA COLON"}
+              names={AssociatePastores[0].Name}
+              imageLocation={AssociatePastores[0].Photo.filename}
+              altText={AssociatePastores[0].Photo.filename}
             />
           </div>
         </div>
 
         <div className=" mt-16">
           <div className=" mb-8 text-center  text-4xl font-medium tracking-widest">
-            {"Decons"}
+            {DeconsHeader}
           </div>
           <div className="flex md:flex-row md:justify-evenly flex-col gap-y-16">
-            <SubEyeCatch
-              names={"WELLINGTON & MARCIA DE JESUS"}
-              imageLocation={"/Leadership/Wellington.jpg"}
-              altText={"Decon: WELLINGTON Y MARCIA DE JESUS"}
-            />
-
-            <SubEyeCatch
-              names={"JOSE & ANA PAULA DE LA ROSA"}
-              imageLocation={"/Leadership/DeRosa.jpg"}
-              altText={"Decon: JOSE & ANA PAULA DE LA ROSA"}
-            />
+            {Decons.map((decon) => {
+              return (
+                <SubEyeCatch
+                  names={decon.Name}
+                  imageLocation={decon.Photo.filename}
+                  altText={decon.Photo.filename}
+                />
+              );
+            })}
           </div>
         </div>
         <div className=" mt-16">
           <div className=" mb8 text-center  text-4xl font-medium tracking-widest">
-            {"Worship Leader"}
+            {WorshipLeaderHeader}
           </div>
           <div className="flex md:flex-row md:justify-evenly flex-col gap-y-16">
             <SubEyeCatch
-              names={"MOISÉS RAMIREZ"}
-              imageLocation={"/Leadership/Moises.jpg"}
-              altText={"Worship Leader: Moises Ramirez"}
+              names={WorshipLeader[0].Name}
+              imageLocation={WorshipLeader[0].Photo.filename}
+              altText={WorshipLeader[0].Photo.filename}
             />
           </div>
         </div>

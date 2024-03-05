@@ -9,26 +9,21 @@ const ebG = EB_Garamond({ subsets: ["latin"] });
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { lang } }) {
-
-  
-
-
   return {
     title: "QuienesSomosTitle",
     description: "QuienesSomosDescription",
   };
 }
 
-export default function Home({ params: { lang } }) {
-  
-  const headerTitles = [
-    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
-    { Name: "Leadership", Link: `${lang}/Liderazgo` },
-    { Name: "Ministries", Link: `${lang}/Ministerios` },
-    { Name: "Events", Link: `${lang}/Eventos` },
-    { Name: "Sermons", Link: `${lang}/Sermones` },
-    { Name: "Offerings", Link: `${lang}/Ofrenda` },
-  ];
+export default async function Home({ params: { lang } }) {
+  const version = process.env.SB_DATA_VERSION;
+  const token = process.env.SB_TOKEN;
+  const url = `https://api-us.storyblok.com/v2/cdn/stories/quienes-somos?version=${version}&token=${token}&language=${lang}`;
+  let req = await fetch(url, { next: { revalidate: 10 } });
+  const storyData = await req.json();
+
+  const { Title, MiddleEyeCatchArray,Beliefs } = storyData.story.content;
+
   function MiddlePageText({ header, description }) {
     return (
       <div>
@@ -37,7 +32,6 @@ export default function Home({ params: { lang } }) {
       </div>
     );
   }
-  console.log("Language",lang)
 
   return (
     <main className={`${ebG.className} overflow-x-hidden`}>
@@ -48,25 +42,25 @@ export default function Home({ params: { lang } }) {
         <div className="mt-13 md:mt-0">
           <Header lang={lang} />
         </div>
-          <MiddlePageText header={"Mission"} description={"WeAreAChurch"} />
         <div className="flex flex-col text-center items-center mt-5">
           <div className={CopperplateBold.className}>
             <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-              {"whoAreWe"}
+              {Title}
             </div>
           </div>
-          <h1 className="font-extrabold text-6xl pb-4">{"Mission"}</h1>
-          <div className="text-3xl pb-8">{"WeAreAChurch"}</div>
-          <div>
-            <h1 className="font-extrabold text-6xl pb-4">{"Vision"}</h1>
-            <p className="text-3xl pb-8 px-3">
-              {"Evangelize and Disciple through the city"}
-            </p>
-          </div>
+          {MiddleEyeCatchArray.map((middEyeCatchCard) => {
+            return (
+              <MiddlePageText
+                header={middEyeCatchCard.Title}
+                description={middEyeCatchCard.Description}
+                key={middEyeCatchCard.Title}
+              />
+            );
+          })}
           <Image
             width={642}
             height={696}
-            src={"/QuienesSomosSVG/middleEyeCatch.svg"}
+            src={Beliefs.filename}
             alt="Beliefs"
           />
         </div>

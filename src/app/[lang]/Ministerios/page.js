@@ -10,78 +10,14 @@ export async function generateMetadata({ params: { locale } }) {
   return { title: "MinistriesTitle", description: "MinistriesDescription" };
 }
 
-export default function home({ params: { lang } }) {
-  const mini = [
-    {
-      title: "Evenglism",
-      desc: "Evangelization Desc",
-      imageLocation: "/Ministries/evangelismo.webp",
-    },
-    {
-      // [TODO] Fix this discription
-      title: "Small Health Groups",
-      desc: "Evangelization Desc",
-      imageLocation: "/Ministries/GPS.jpg",
-    },
-    {
-      title: "WORSHIP AND PRAISE",
-      desc: "Worship and Praise Desc",
-      imageLocation: "/Ministries/worship.webp",
-    },
-    {
-      title: "CHRISTIAN EDUCATION",
-      desc: "Christian Education Desc",
-      imageLocation: "/Ministries/Study.jpg",
-    },
-    {
-      title: "MISSIONS",
-      desc: "Missions Desc",
-      imageLocation: "/Ministries/Mission.jpg",
-    },
-    {
-      title: "PRAYER",
-      desc: "Prayer Desc",
-      imageLocation: "/Ministries/Prayer.jpg",
-    },
-    {
-      title: "PASTORAL COUNSELING",
-      desc: "Pastoral Counseling Desc",
-      imageLocation: "/Ministries/Pastoral Therapy.jpg",
-    },
-    {
-      title: "COUPLES MINISTRY",
-      desc: "Couples Ministry Desc",
-      imageLocation: "/Ministries/CoupleTherapy.jpg",
-    },
-    {
-      title: "MEN'S MINISTRY",
-      desc: "Men's Ministry Desc",
-      imageLocation: "/Ministries/Men_Prayer.jpg",
-    },
-    {
-      title: "WOMEN'S MINISTRY",
-      desc: "Women's Ministry Desc",
-      imageLocation: "/Ministries/Women_Prayer.webp",
-    },
-    {
-      title: "TEENS'S MINISTRY",
-      desc: "Teen's Ministry Desc",
-      imageLocation: "/Ministries/YouthGroup1.webp",
-    },
-    {
-      title: "CHILDREN'S MINISTRY",
-      desc: "Children's Ministry Desc",
-      imageLocation: "/Ministries/childPraying.jpg",
-    },
-  ];
-  const headerTitles = [
-    { Name: "Who Are We", Link: `${lang}/QuienesSomos` },
-    { Name: "Leadership", Link: `${lang}/Liderazgo` },
-    { Name: "Ministries", Link: `${lang}/Ministerios` },
-    { Name: "Events", Link: `${lang}/Eventos` },
-    { Name: "Sermons", Link: `${lang}/Sermones` },
-    { Name: "Offerings", Link: `${lang}/Ofrenda` },
-  ];
+export default async function home({ params: { lang } }) {
+  const version = process.env.SB_DATA_VERSION;
+  const token = process.env.SB_TOKEN;
+  const url = `https://api-us.storyblok.com/v2/cdn/stories/ministries?version=${version}&token=${token}&language=${lang}`;
+  let req = await fetch(url, { next: { revalidate: 10 } });
+  const storyData = await req.json();
+  const { Title, MinistriesCards } = storyData.story.content;
+
   return (
     <main className="overflow-x-hidden">
       {" "}
@@ -89,19 +25,19 @@ export default function home({ params: { lang } }) {
         <div className="lg:m-auto mt-28">
           <NewMember />
         </div>
-        <Header headerTitles={headerTitles} />
+        <Header lang={lang} />
         <div className={CopperplateBold.className}>
           <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-            {"Minstries"}
+            {Title}
           </div>
         </div>
         <div className="flex flex-col items-center">
-          {mini.map((item, index) => (
+          {MinistriesCards.map((item, index) => (
             <EyeCatch
-              title={item.title}
-              desc={item.desc}
+              title={item.Titles}
+              desc={item.Description}
               key={index}
-              imageLocation={item.imageLocation}
+              imageLocation={item.Image.filename}
             />
           ))}
         </div>

@@ -14,7 +14,6 @@ function Header(lang) {
     setMenuOpen(!menuOpen);
   };
   let headerTitles = [];
-  console.log("hello world", lang.lang, Object.entries(lang));
 
   if (lang.lang === "en") {
     headerTitles = [
@@ -25,7 +24,6 @@ function Header(lang) {
       { Name: "Sermons", Link: `${lang.lang}/Sermones` },
       { Name: "Offerings", Link: `${lang.lang}/Ofrenda` },
     ];
-    console.log("we are in English", headerTitles);
   }
 
   if (lang.lang === "es") {
@@ -37,7 +35,6 @@ function Header(lang) {
       { Name: "Sermónes", Link: `${lang.lang}/Sermones` },
       { Name: "Ofrendas", Link: `${lang.lang}/Ofrenda` },
     ];
-    console.log("we are in Spanish", headerTitles);
   }
 
   if (lang.lang === "pt") {
@@ -49,7 +46,6 @@ function Header(lang) {
       { Name: "Sermões", Link: `${lang.lang}/Sermones` },
       { Name: "Ofertas", Link: `${lang.lang}/Ofrenda` },
     ];
-    console.log("we are in Portugue", headerTitles);
   }
 
   return (
