@@ -1,15 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { EB_Garamond } from "next/font/google";
 import { useTranslations } from "next-intl";
-import Header from "../../../component/headerComponent/header";
-import LanguageSelector from "../../../component/flagComponents/flagSelector";
-import Footer from "../../../component/footerComponent/footer";
+import Header from "@/app/[lang]/_components/headerComponent/header";
+import LanguageSelector from "@/app/[lang]/_components/flagComponents/flagSelector";
+import Footer from "@/app/[lang]/_components/footerComponent/footer";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
-// export const metadata = {
-//   title: "Soy Nuevo",
-//   description: "Únase a nuestra Iglesia",
-// };
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
@@ -18,26 +14,16 @@ export async function generateMetadata({ params: { locale } }) {
     title: t("NewMemberSuccessTitle"),
   };
 }
-
-export default function Home() {
-  const headerTranslations = useTranslations("Header");
+export default function Home({ params: { lang } }) {
   const Success = useTranslations("Success");
-  const headerTitles = [
-    { Name: headerTranslations("Who Are We"), Link: "/QuienesSomos" },
-    { Name: headerTranslations("Leadership"), Link: "/Liderazgo" },
-    { Name: headerTranslations("Ministries"), Link: "/Ministerios" },
-    { Name: headerTranslations("Events"), Link: "/Eventos" },
-    { Name: headerTranslations("Sermons"), Link: "/Sermones" },
-    { Name: headerTranslations("Offerings"), Link: "/Ofrenda" },
-  ];
   return (
     <main className={ebG.className}>
       <div className="bg-white h-fit w-full flex flex-col text-black">
         <div className="md:mt-0 mt-48">
-          <Header headerTitles={headerTitles} />
+          <Header lang={lang} />
         </div>
         <LanguageSelector />{" "}
-        <div>
+        <div className="text-center my-9">
           <div className="lg:text-5xl text-3xl">{Success("Thanks")}</div>
         </div>
         <Footer />

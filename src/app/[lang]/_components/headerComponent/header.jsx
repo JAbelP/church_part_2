@@ -4,6 +4,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import { useState, useEffect } from "react";
 import { Hamburger } from "../icons/hamburger";
+
 // Load the font and assign it to a constant in the module scope
 const TrajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
@@ -13,38 +14,45 @@ function Header(lang) {
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
-  let headerTitles = [];
+  let headerTitles = [
+    { Name: "Who Are We", Link: `/QuienesSomos` },
+    { Name: "Leadership", Link: `/Liderazgo` },
+    { Name: "Ministries", Link: `/Ministerios` },
+    { Name: "Events", Link: `/Eventos` },
+    { Name: "Sermons", Link: `/Sermones` },
+    { Name: "Offerings", Link: `/Ofrenda` },
+  ];
 
   if (lang.lang === "en") {
     headerTitles = [
-      { Name: "Who Are We", Link: `${lang.lang}/QuienesSomos` },
-      { Name: "Leadership", Link: `${lang.lang}/Liderazgo` },
-      { Name: "Ministries", Link: `${lang.lang}/Ministerios` },
-      { Name: "Events", Link: `${lang.lang}/Eventos` },
-      { Name: "Sermons", Link: `${lang.lang}/Sermones` },
-      { Name: "Offerings", Link: `${lang.lang}/Ofrenda` },
+      { Name: "Who Are We", Link: `/QuienesSomos` },
+      { Name: "Leadership", Link: `/Liderazgo` },
+      { Name: "Ministries", Link: `/Ministerios` },
+      { Name: "Events", Link: `/Eventos` },
+      { Name: "Sermons", Link: `/Sermones` },
+      { Name: "Offerings", Link: `/Ofrenda` },
     ];
   }
 
   if (lang.lang === "es") {
     headerTitles = [
-      { Name: "¿Quiénes Somos?", Link: `${lang.lang}/QuienesSomos` },
-      { Name: "Liderazgo", Link: `${lang.lang}/Liderazgo` },
-      { Name: "Ministerios", Link: `${lang.lang}/Ministerios` },
-      { Name: "Eventos", Link: `${lang.lang}/Eventos` },
-      { Name: "Sermónes", Link: `${lang.lang}/Sermones` },
-      { Name: "Ofrendas", Link: `${lang.lang}/Ofrenda` },
+      { Name: "¿Quiénes Somos?", Link: `/QuienesSomos` },
+      { Name: "Liderazgo", Link: `/Liderazgo` },
+      { Name: "Ministerios", Link: `/Ministerios` },
+      { Name: "Eventos", Link: `/Eventos` },
+      { Name: "Sermónes", Link: `/Sermones` },
+      { Name: "Ofrendas", Link: `/Ofrenda` },
     ];
   }
 
   if (lang.lang === "pt") {
     headerTitles = [
-      { Name: "Quem Somos Nós", Link: `${lang.lang}/QuienesSomos` },
-      { Name: "Liderança", Link: `${lang.lang}/Liderazgo` },
-      { Name: "Ministérios", Link: `${lang.lang}/Ministerios` },
-      { Name: "Eventos", Link: `${lang.lang}/Eventos` },
-      { Name: "Sermões", Link: `${lang.lang}/Sermones` },
-      { Name: "Ofertas", Link: `${lang.lang}/Ofrenda` },
+      { Name: "Quem Somos Nós", Link: `/QuienesSomos` },
+      { Name: "Liderança", Link: `/Liderazgo` },
+      { Name: "Ministérios", Link: `/Ministerios` },
+      { Name: "Eventos", Link: `/Eventos` },
+      { Name: "Sermões", Link: `/Sermones` },
+      { Name: "Ofertas", Link: `/Ofrenda` },
     ];
   }
 

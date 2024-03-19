@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Header from "../headerComponent/header";
-import Footer from "../footerComponent/footer";
 import localFont from "next/font/local";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
 import Image from "next/image";
+import zelleImage from "../../../../../public/offerings/zelle-64.png"
 import Router from "next/router";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
@@ -20,6 +20,7 @@ export default function OfrendaForm({
   bibleVerse,
   bibleVerseCite,
   click,
+  instruct
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
@@ -91,7 +92,7 @@ export default function OfrendaForm({
               <div className=" rounded-lg  mb-4 px-4 py-3 h-auto bg-purple-300 h-16 flex flex-row justify-around items-center">
                 <div className="flex flex-row items-center">
                   <Image
-                    src={"/offerings/zelle-64.png"}
+                    src={zelleImage}
                     alt="zelle-64"
                     width={64}
                     height={64}
@@ -101,7 +102,7 @@ export default function OfrendaForm({
                 <div
                   className="text-xl bg-white rounded-md p-2"
                   onClick={() =>
-                    navigator.clipboard.writeText("(xxx)-xxx-xxxx")
+                    navigator.clipboard.writeText("(321)-278-3777")
                   }
                 >
                   (321)-278-3777
@@ -190,7 +191,6 @@ export default function OfrendaForm({
 
           {/* Right Hand side */}
         </div>
-        <Footer />
       </div>
     </main>
   );

@@ -1,10 +1,12 @@
 import React from "react";
 import { EB_Garamond } from "next/font/google";
-import Credits from "./credits"
+import Credits from "./credits";
+import { useTranslations } from "next-intl";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 
 function Footer() {
+  const t = useTranslations("Footer");
   return (
     <div className={ebG.className}>
       <div className="text-black my-6">
@@ -26,23 +28,21 @@ function Footer() {
             {/* Time and dates  */}
             <div className="w-[395px] mt-5 ">
               <div className="mb-4">
-                <div className="underline">{'Visit'}</div>
+                <div className="underline">{t("Visit")}</div>
                 <p>7600 Winegard Rd. Orlando, FL 32809</p>
               </div>
               <div className="mb-4">
-                <div className="underline ">{'Hours'}</div>
+                <div className="underline ">{t("Hours")}</div>
                 <div>
-                  <div>
-                  {'Time1'}
-                  </div>
-                  <div>
-                  {'Time2'}
-                  </div>
+                  <div>{t("Time1")}</div>
+                  <div>{t("Time2")}</div>
                 </div>
               </div>
               <div className="lg:hidden block">
                 <p className="text-4xl underline mb-3">Links</p>
-                <a href="https://mosaicmennonites.org/" className=" text-xl">MOSAIC MENNONITE CONFERENCE</a>
+                <a href="https://mosaicmennonites.org/" className=" text-xl">
+                  MOSAIC MENNONITE CONFERENCE
+                </a>
               </div>
             </div>
           </div>
@@ -50,11 +50,13 @@ function Footer() {
         <div className="hidden lg:ml-8 lg:mt-4 lg:block">
           <div className="mb-40">
             <p className="text-5xl">Links</p>
-            <a href="https://mosaicmennonites.org/" className="font-semibold">MOSAIC MENNONITE CONFERENCE</a>
+            <a href="https://mosaicmennonites.org/" className="font-semibold">
+              MOSAIC MENNONITE CONFERENCE
+            </a>
           </div>
         </div>
       </div>
-      <Credits/>
+      <Credits />
     </div>
   );
 }

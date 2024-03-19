@@ -4,27 +4,27 @@ import Image from "next/image";
 import LanguageSelector from "../flagComponents/flagSelector";
 const CopperplateBold = localFont({ src: "../../../font/CopperplateBold.ttf" });
 
+{
+  /* <div className={`${CopperplateBold.className} `}> */
+}
+
 function Eventos({ eventName, eventTime, eventLocation, eventImage }) {
   return (
     <>
-      <div className="flex md:flex-row flex-col items-center text-left w-[348]  ">
-        <div className="lg:w-[502px] h-[224px] w-10/12  relative">
-          <Image src={eventImage} alt="Example" fill={true} />
+      <div className="flex flex-col items-center text-center py-4 lg:flex-row lg:justify-center">
+        <div>
+          <Image
+            src={eventImage}
+            alt={eventName}
+            width={320}
+            height={180}
+            // className="rounded-lg"
+          />
         </div>
-        <div className="ml-8">
-          <div className={`${CopperplateBold.className} `}>
-            <div className="text-2xl tracking-widest mb-4">
-              {eventName}
-            </div>
-          </div>
-          <div className="text-xl tracking-tight mb-4 ">
-            {eventTime}
-          </div>
-          {eventLocation && (
-            <p className="text-xl tracking-tight mb-4 ">
-              {eventLocation}
-            </p>
-          )}
+        <div className="w-10/12 lg:w-3/12 lg:pl-4 pt-2">
+          <p className="font-bold capitalize">{eventName}</p>
+          <p className="pt-2">{eventTime}</p>
+          <p className="pt-2 capitalize">{eventLocation}</p>
         </div>
       </div>
     </>

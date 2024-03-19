@@ -12,6 +12,7 @@ const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
 export default function EntirePage({
+  langauge,
   aboutYouHeader,
   nameText,
   ageText,
@@ -35,13 +36,7 @@ export default function EntirePage({
   friend,
   submitText,
   bibleVerse,
-  bibleVerseCite,
-  header1,
-  header2,
-  header3,
-  header4,
-  header5,
-  header6,
+  bibleVerseCite
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
@@ -109,14 +104,7 @@ export default function EntirePage({
     });
   };
 
-  const headerTitles = [
-    { Name: Object.values({ header1 }), Link: "/QuienesSomos" },
-    { Name: Object.values({ header2 }), Link: "/Liderazgo" },
-    { Name: Object.values({ header3 }), Link: "/Ministerios" },
-    { Name: Object.values({ header4 }), Link: "/Eventos" },
-    { Name: Object.values({ header5 }), Link: "/Sermones" },
-    { Name: Object.values({ header6 }), Link: "/Ofrenda" },
-  ];
+
 
   return (
     <main className={ebG.className}>
@@ -125,7 +113,7 @@ export default function EntirePage({
       />
       <div className="bg-white h-fit w-full flex flex-col text-black">
         {/* <div className="m-auto"></div> */}
-        <Header headerTitles={headerTitles} />
+        <Header lang={"en"} />
         <LanguageSelector />
         <div className="flex flex-row mb-16 pl-16 text-xl lg:mt-0 mt-32">
           {/* Left Hand Side */}

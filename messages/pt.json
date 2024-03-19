@@ -1,0 +1,100 @@
+{
+  "Metadata": {
+    "homeTitle": "Bem-vindo(a) à Luz e Vida",
+    "homeDescription": "Bem-vindo(a) à Luz e Vida",
+    "SoyNuevoTitle": "Junte-se à nossa Igreja",
+    "SoyNuevoDiscription": "Junte-se à nossa Igreja",
+    "SermonesTitle": "Ouça nossos sermões anteriores",
+    "SermonesDiscription": "Ouça nossos sermões anteriores",
+    "QuienesSomosTitle": "Quem somos nós?",
+    "QuienesSomosDiscription": "Quem somos nós?",
+    "MinistriesTitle": "Conheça nossos Ministérios",
+    "MinistriesDiscription": "Conheça nossos Ministérios",
+    "LeadershipTitle": "Conheça nossa Liderança",
+    "LeadershipDescription": "Conheça nossa Liderança",
+    "EventosTitle": "Conheça nossos Eventos",
+    "EventosDiscription": "Conheça nossos Eventos",
+    "OfferingThanksTitle": "Obrigado pela sua doação",
+    "OfferingTitle": "Obrigado por considerar a sua doação",
+    "OfferingDescription": "Doe para a Luz Y Vida hoje!",
+    "NewMemberTitle": "Junte-se à Igreja Luz Y Vida",
+    "NewMemberDescription": "Junte-se à Igreja Luz Y Vida",
+    "NewMemberSuccessTitle": "Junte-se à Igreja Luz Y Vida"
+  },
+  "Success": {
+    "Thanks": "Obrigado, Entraremos em Contato em Breve.",
+    "Donation": "Obrigado pela sua doação"
+  },
+  "Header": {
+    "Who Are We": "Quem Somos Nós",
+    "Leadership": "Liderança",
+    "Ministries": "Ministérios",
+    "Events": "Eventos",
+    "Sermons": "Sermões",
+    "Offerings": "Ofertas"
+  },
+  "Home": {
+    "Bible Verse": "Ele te declarou, ó homem, o que é bom; e o que o Senhor pede de ti, senão que pratiques a justiça, e ames a misericórdia, e andes humildemente com o teu Deus?",
+    "Bible Verse Cite": "-Miquéias 6:8"
+  },
+  "WhoAreWe": {
+    "whoAreWe": "Quem Somos Nós?",
+    "Mission": "Missão",
+    "WeAreAChurch": "Somos uma Igreja que Ama e Restaura",
+    "Vision": "Nossa Visão",
+    "Evangelize and Disciple through the city": "Evangelizar e discipular através do Sistema de Grupos Familiares da cidade, através da formação de um Ministério Hispano, fazendo de cada cristão um discípulo."
+  },
+  "newMemberComponent": {
+    "Call To Action": "Junte-se a Nós Hoje"
+  },
+  "Offering": {
+    "Title": "Oferta",
+    "Name": "Nome",
+    "Phone": "Telefone",
+    "Email": "E-mail",
+    "Submit": "Enviar",
+    "Thanks": "Obrigado por apoiar nossos Ministérios. Aceitamos pagamentos através do Zelle. Por favor, preencha as informações abaixo para fins fiscais.",
+    "Verse": "Trazei todos os dízimos à casa do tesouro, para que haja mantimento na minha casa; e provai-me nisto,” diz o Senhor dos Exércitos",
+    "cite": "Malaquias 3:10",
+    "click": "Clique aqui para copiar o número de telefone"
+  },
+  "NewMembers": {
+    "About You": "Sobre Você",
+    "Name": "Nome",
+    "Age": "Idade",
+    "Gender": "Gênero",
+    "Select Gender": "Selecionar Gênero",
+    "Male": "Masculino",
+    "Female": "Feminino",
+    "Contact Information": "Informações de Contato",
+    "Phone": "Telefone",
+    "Email": "E-mail",
+    "Additional Information": "Informações Adicionais",
+    "How Did You Hear": "Como você nos conheceu?",
+    "Select An Option": "Selecionar uma Opção",
+    "Evangalism": "Evangelismo",
+    "Friend": "Amigo",
+    "Facebook": "Facebook",
+    "I Would Like To": "Eu gostaria de...",
+    "Join The Church": "Juntar-se à Igreja",
+    "Convert": "Converter-me",
+    "Talk To Someone": "Falar com Alguém",
+    "Do You Have a Petition?": "Você tem uma Petição?",
+    "Submit": "Enviar",
+    "Bible Verse": "Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei.",
+    "Bible Verse Cite": "- Mateus 11:28",
+    "Example": "Sobre Você",
+    "Who Are We": "¿Quiénes Somos?",
+    "Leadership": "Liderazgo",
+    "Ministries": "Ministerios",
+    "Events": "Eventos",
+    "Sermons": "Sermónes",
+    "Offerings": "Ofrendas"
+  },
+  "Footer": {
+    "Visit": "Visite-nos",
+    "Hours": "Horários",
+    "Time1": "Domingo 1:30 PM",
+    "Time2": "Sexta-feira 7:30 PM"
+  }
+}
