@@ -3,17 +3,16 @@ import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
-// export const metadata = {
-//   title: 'Sermones',
-//   description: 'Escuche Sermones Pasados',
-// }
 export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
-    title: "SermonesTitle",
-    description: "SermonesDescription",
+    title: t("SermonesTitle"),
+    description: t("SermonesDescription"),
   };
 }
 

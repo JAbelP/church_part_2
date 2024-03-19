@@ -8,14 +8,14 @@ import { getTranslations } from "next-intl/server";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 
-export async function generateMetadata({ params: { lang } }) {
-  const t = await getTranslations({ lang, namespace: "Metadata" });
+export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
     title: t("homeTitle"),
     description: t("homeDescription"),
   };
 }
-
 export default async function home({ params: { lang } }) {
   const version = process.env.SB_DATA_VERSION;
   const token = process.env.SB_TOKEN;

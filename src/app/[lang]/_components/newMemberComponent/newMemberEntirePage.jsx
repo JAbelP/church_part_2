@@ -302,7 +302,6 @@ export default function EntirePage({
 
           {/* Right Hand side */}
         </div>
-        <Footer />
       </div>
     </main>
   );

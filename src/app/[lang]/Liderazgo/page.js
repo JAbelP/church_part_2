@@ -6,7 +6,7 @@ import { EB_Garamond } from "next/font/google";
 import SubEyeCatch from "@/app/[lang]/_components/ministeriosComponents/subEyeCatch";
 import localFont from "next/font/local";
 import LanguageSelector from "@/app/[lang]/_components/flagComponents/flagSelector";
-
+import { getTranslations } from "next-intl/server";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
@@ -16,11 +16,14 @@ const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 // };
 
 export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
-    title: "LeadershipTitle",
-    description: "LeadershipDescription",
+    title: t("LeadershipTitle"),
+    description: t("LeadershipDescription"),
   };
 }
+
 
 export default async function Home({ params: { lang } }) {
   const version = process.env.SB_DATA_VERSION;

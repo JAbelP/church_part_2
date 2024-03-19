@@ -1,6 +1,7 @@
 import EntirePage from "@/app/[lang]/_components/newMemberComponent/newMemberEntirePage";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import Footer from "../_components/footerComponent/footer";
 
 // export const metadata = {
 //   title: "Soy Nuevo",
@@ -12,12 +13,11 @@ export async function generateMetadata({ params: { locale } }) {
 
   return {
     title: t("NewMemberTitle"),
-    description:t("NewMemberDescription"),
+    description: t("NewMemberDescription"),
   };
 }
 
-
-export default function Home({ params: { lang } })  {
+export default function Home({ params: { lang } }) {
   const t = useTranslations("NewMembers");
   const h = useTranslations("Header");
 
@@ -49,6 +49,7 @@ export default function Home({ params: { lang } })  {
         bibleVerse={t("Bible Verse")}
         bibleVerseCite={t("Bible Verse Cite")}
       />
+<Footer/>
     </>
   );
 }

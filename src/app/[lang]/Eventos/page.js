@@ -7,10 +7,14 @@ import Eventos from "@/app/[lang]/_components/eventosComponents/eventos";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+
 export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
-    title: "EventosTitle",
-    description: "EventosDescription",
+    title: t("EventosTitle"),
+    description: t("EventosDescription"),
   };
 }
 
@@ -22,6 +26,7 @@ export default async function Home({ params: { lang } }) {
   const storyData = await req.json();
 
   const { Title, EventsArrayList } = storyData.story.content;
+  console.log(EventsArrayList[0].EventName);
 
   return (
     <main className="bg-white h-fit w-full flex flex-col text-black overflow-x-hidden">
@@ -35,8 +40,8 @@ export default async function Home({ params: { lang } }) {
             {Title}
           </div>
         </div>
-        <div className="flex flex-col gap-y-8 items-center">
-        {EventsArrayList.map((events) => {
+        <div >
+          {EventsArrayList.map((events) => {
             return (
               <div
                 className="flex flex-col items-center text-center py-4 lg:flex-row lg:justify-center"
@@ -51,11 +56,10 @@ export default async function Home({ params: { lang } }) {
                       className="rounded-lg"
                     />
                 </div>
-                <div className="w-10/12 lg:w-3/12 lg:pl-4 pt-2">
-                  <p className="font-bold capitalize">{events.Title}</p>
-                  <p className="pt-2">{events.Speaker}</p>
-                  <p className="pt-2 capitalize">{events.Description}</p>
-                  <p className="pt-2">{events.Date}</p>
+                <div className="w-10/12 lg:w-3/12 lg:pl-6 pt-2">
+                  <p className="font-bold capitalize">{events.EventName}</p>
+                  <p className="pt-2">{events.EventTime}</p>
+                  <p className="pt-2">{events.EventLocation}</p>
                 </div>
               </div>
             );

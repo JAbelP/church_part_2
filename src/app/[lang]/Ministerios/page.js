@@ -3,12 +3,20 @@ import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import EyeCatch from "@/app/[lang]/_components/ministeriosComponents/eyeCatch";
 import localFont from "next/font/local";
+import { getTranslations } from "next-intl/server";
 
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
+
 export async function generateMetadata({ params: { locale } }) {
-  return { title: "MinistriesTitle", description: "MinistriesDescription" };
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("MinistriesTitle"),
+    description: t("MinistriesDescription"),
+  };
 }
+
 
 export default async function home({ params: { lang } }) {
   const version = process.env.SB_DATA_VERSION;

@@ -4,15 +4,18 @@ import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
+import { getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
-export async function generateMetadata({ params: { lang } }) {
+export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
-    title: "QuienesSomosTitle",
-    description: "QuienesSomosDescription",
+    title: t("QuienesSomosTitle"),
+    description: t("QuienesSomosDescription"),
   };
 }
 
