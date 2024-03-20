@@ -7,6 +7,7 @@ import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
 import { useRouter } from "next/navigation";
+import Router from "next/router";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
@@ -49,7 +50,7 @@ export default function EntirePage({
   const [heard, setHeard] = useState(""); // Added state for gender
   const [wouldLikeTo, setWouldLikeTo] = useState(""); // Added state for gender
   const [petition, setPetition] = useState(""); // Added state for gender
-  const { push } = useRouter();
+  const { push,refresh } = useRouter();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -96,6 +97,9 @@ export default function EntirePage({
                 });
                 console.log("Should Push");
                 push(`/SoyNuevo/Success`);
+                Router.push(`/SoyNuevo/Success`);
+                refresh();
+                
               }
             } else {
               throw new Error(response1.statusText);
