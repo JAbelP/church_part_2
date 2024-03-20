@@ -95,7 +95,6 @@ export default function EntirePage({
                   headers: { "content-type": "application/json;charset=utf-8" },
                   body,
                 });
-                console.log("Should Push");
                 push(`/SoyNuevo/Success`);
                 Router.push(`/SoyNuevo/Success`);
                 refresh();

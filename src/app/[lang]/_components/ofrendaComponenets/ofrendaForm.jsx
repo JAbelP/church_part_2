@@ -6,10 +6,11 @@ import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
 import Image from "next/image";
-import zelleImage from "../../../../../public/offerings/zelle-64.png"
+import zelleImage from "../../../../../public/offerings/zelle-64.png";
 import Router from "next/router";
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
+import Router from "next/router";
 
 export default function OfrendaForm({
   nameText,
@@ -20,7 +21,7 @@ export default function OfrendaForm({
   bibleVerse,
   bibleVerseCite,
   click,
-  instruct
+  instruct,
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
@@ -28,6 +29,7 @@ export default function OfrendaForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const { push, refresh } = useRouter();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -68,6 +70,8 @@ export default function OfrendaForm({
                   body,
                 });
                 Router.push("/Ofrenda/Thanks");
+                push(`/SoyNuevo/Success`);
+                refresh();
               }
             } else {
               throw new Error(response1.statusText);
