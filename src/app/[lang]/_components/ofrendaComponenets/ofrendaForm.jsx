@@ -8,9 +8,10 @@ import LanguageSelector from "../flagComponents/flagSelector";
 import Image from "next/image";
 import zelleImage from "../../../../../public/offerings/zelle-64.png";
 import Router from "next/router";
+import { useRouter } from "next/navigation";
+
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
-import Router from "next/router";
 
 export default function OfrendaForm({
   nameText,
@@ -21,7 +22,6 @@ export default function OfrendaForm({
   bibleVerse,
   bibleVerseCite,
   click,
-  instruct,
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
@@ -69,8 +69,8 @@ export default function OfrendaForm({
                   headers: { "content-type": "application/json;charset=utf-8" },
                   body,
                 });
+                push(`/Ofrenda/Thanks`);
                 Router.push("/Ofrenda/Thanks");
-                push(`/SoyNuevo/Success`);
                 refresh();
               }
             } else {
