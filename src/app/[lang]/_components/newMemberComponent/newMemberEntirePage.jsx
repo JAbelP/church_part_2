@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
-import Router from "next/router";
+import { useRouter } from 'next/navigation'
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
@@ -49,6 +49,7 @@ export default function EntirePage({
   const [heard, setHeard] = useState(""); // Added state for gender
   const [wouldLikeTo, setWouldLikeTo] = useState(""); // Added state for gender
   const [petition, setPetition] = useState(""); // Added state for gender
+  const { push } = useRouter();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -65,7 +66,7 @@ export default function EntirePage({
           };
 
           try {
-            const response1 = await fetch("/api/reCaptcha", {
+            const response1 = await fetch(`${langauge}/api/reCaptcha`, {
               method: "POST",
               headers: { "content-type": "application/json;charset=utf-8" },
               body: JSON.stringify(bodyForGoogleResponse),
@@ -93,7 +94,8 @@ export default function EntirePage({
                   headers: { "content-type": "application/json;charset=utf-8" },
                   body,
                 });
-                Router.push("/SoyNuevo/Success");
+                console.log("Should Push");
+                push(`${langauge}/SoyNuevo/Success`);
               }
             } else {
               throw new Error(response1.statusText);
