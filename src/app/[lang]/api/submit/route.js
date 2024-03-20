@@ -34,9 +34,6 @@ async function sendMail(body) {
   const bodyJsonString = JSON.stringify(body);
   let sendResult;
   try {
-
-    console.log(body);
-    console.log(bodyJsonString);
     if (body.subject === "New Member") {
       sendResult = await transport.sendMail({
         from: SMTP_EMAIL,
@@ -52,8 +49,8 @@ async function sendMail(body) {
         to: SMTP_EMAIL,
         subject: "New Member",
         text: JSON.stringify(body),
-        // html: body,
       });
+      return {};
     }
     console.log(sendResult);
   } catch (error) {
