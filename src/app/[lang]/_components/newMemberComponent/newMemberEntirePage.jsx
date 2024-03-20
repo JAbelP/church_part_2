@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
 import LanguageSelector from "../flagComponents/flagSelector";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
@@ -36,7 +36,7 @@ export default function EntirePage({
   friend,
   submitText,
   bibleVerse,
-  bibleVerseCite
+  bibleVerseCite,
 }) {
   // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
@@ -66,7 +66,7 @@ export default function EntirePage({
           };
 
           try {
-            const response1 = await fetch(`${langauge}/api/reCaptcha`, {
+            const response1 = await fetch(`/api/reCaptcha`, {
               method: "POST",
               headers: { "content-type": "application/json;charset=utf-8" },
               body: JSON.stringify(bodyForGoogleResponse),
@@ -95,7 +95,7 @@ export default function EntirePage({
                   body,
                 });
                 console.log("Should Push");
-                push(`${langauge}/SoyNuevo/Success`);
+                push(`/SoyNuevo/Success`);
               }
             } else {
               throw new Error(response1.statusText);
@@ -105,8 +105,6 @@ export default function EntirePage({
         .catch((error) => {});
     });
   };
-
-
 
   return (
     <main className={ebG.className}>
