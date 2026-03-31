@@ -1,26 +1,30 @@
-import React from "react";
-import { Inter } from "next/font/google";
-import { EB_Garamond } from "next/font/google";
 import Image from "next/image";
-const ebG = EB_Garamond({ subsets: ["latin"] });
+import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 
-function EyeCatch({ title, imageLocation, desc }) {
+const ebG = EB_Garamond({ subsets: ["latin"] });
+const CopperplateFont = localFont({ src: "../../../font/CopperplateBold.ttf" });
+
+export default function EyeCatch({ title, imageLocation, desc }) {
   return (
-    <div className="text-black mb-8 ">
-      <div className={ebG.className}>
-        <div className="mb-2 text-black font-bold break-words text-3xl text-center lg:text-left fonts-medium tracking-[2.55px] capitalize w-3/4 mx-auto lg:w-auto">
-          {/* <Text aText={title}/> */}
-          {title}
-        </div>
+    <div className="w-full max-w-6xl mx-auto mb-12 px-4 md:px-6">
+      <h2 className={`${CopperplateFont.className} text-xl md:text-2xl font-bold text-blue-950 tracking-widest capitalize mb-4`}>
+        {title}
+      </h2>
+      <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-md border border-blue-950/10">
+        <Image
+          src={imageLocation}
+          alt={title || "Ministry"}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1152px"
+        />
+        {/* Subtle overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/30 to-transparent" />
       </div>
-      <div className="relative lg:w-[1326px] mx-auto w-3/4 h-[440px] bg-red-600 border-8 border-black mb-2">
-        <Image src={imageLocation} alt="Example" fill={true} />
-      </div>
-      <div className="lg:w-[1026px]  text-xl px-7 font-medium leading-[31px] tracking-wider m-auto capitalize text-center">
+      <p className={`${ebG.className} text-base md:text-lg leading-relaxed tracking-wide text-blue-950/80 mt-4 max-w-4xl mx-auto text-center`}>
         {desc}
-      </div>
+      </p>
     </div>
   );
 }
-
-export default EyeCatch;

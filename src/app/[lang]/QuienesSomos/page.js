@@ -1,77 +1,71 @@
 import Image from "next/image";
 import Header from "@/app/[lang]/_components/headerComponent/header";
-import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
 import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import { getTranslations } from "next-intl/server";
-import { useTranslations } from "next-intl";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
-const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
+const CopperplateFont = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
     title: t("QuienesSomosTitle"),
     description: t("QuienesSomosDescription"),
   };
 }
 
-export default function Home({ params: { lang } }) {
-  const t = useTranslations("WhoAreWe");
+export default async function QuienesSomos({ params: { lang } }) {
+  const t = await getTranslations({ locale: lang, namespace: "WhoAreWe" });
 
-  function MiddlePageText({ header, description }) {
-    return (
-      <div>
-        <h1 className="font-extrabold text-6xl pb-4">{header}</h1>
-        <p className="text-3xl pb-8 px-3">{description}</p>
-      </div>
-    );
-  }
-
-  const MiddleEyeCatchArray = [
-    { Title: t("Mission"), Description: t("WeAreAChurch") },
-    {
-      Title: t("Vision"),
-      Description: t("Evangelize and Disciple through the city"),
-    },
+  const sections = [
+    { title: t("Mission"), body: t("WeAreAChurch") },
+    { title: t("Vision"), body: t("Evangelize and Disciple through the city") },
   ];
 
   return (
-    <main className={`${ebG.className} overflow-x-hidden`}>
-      <div className="bg-white h-fit w-full flex flex-col text-black">
-        <div className="mt-28 mx-auto md:mt-0">
-          <NewMember />
+    <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
+      <Header lang={lang} />
+
+      {/* Page title */}
+      <section className="bg-blue-950 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
+          <h1 className={`${CopperplateFont.className} text-white text-3xl md:text-5xl lg:text-6xl tracking-widest`}>
+            {t("whoAreWe")}
+          </h1>
         </div>
-        <div className="mt-13 md:mt-0">
-          <Header lang={lang} />
-        </div>
-        <div className="flex flex-col text-center items-center mt-5">
-          <div className={CopperplateBold.className}>
-            <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-              {t("whoAreWe")}
-            </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="max-w-5xl mx-auto w-full px-4 md:px-6 py-12 md:py-16 flex flex-col gap-10">
+        {sections.map((section) => (
+          <div
+            key={section.title}
+            className="border-l-4 border-red-600 pl-6"
+          >
+            <h2 className={`${CopperplateFont.className} text-blue-950 text-xl md:text-3xl font-bold tracking-widest mb-3`}>
+              {section.title}
+            </h2>
+            <p className={`${ebG.className} text-lg md:text-xl text-blue-950/80 leading-relaxed`}>
+              {section.body}
+            </p>
           </div>
-          {MiddleEyeCatchArray.map((middEyeCatchCard) => {
-            return (
-              <MiddlePageText
-                header={middEyeCatchCard.Title}
-                description={middEyeCatchCard.Description}
-                key={middEyeCatchCard.Title}
-              />
-            );
-          })}
-          <Image
-            width={642}
-            height={696}
-            src={"/QuienesSomosSVG/middleEyeCatch.svg"}
-            alt="Beliefs"
-          />
-        </div>
-        <Footer />
-      </div>
+        ))}
+      </section>
+
+      {/* Beliefs graphic */}
+      <section className="flex justify-center px-4 pb-12">
+        <Image
+          width={600}
+          height={650}
+          src="/QuienesSomosSVG/middleEyeCatch.svg"
+          alt="Beliefs"
+          className="max-w-full h-auto"
+        />
+      </section>
+
+      <Footer />
     </main>
   );
 }

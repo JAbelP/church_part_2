@@ -1,14 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import Header from "../headerComponent/header";
-import localFont from "next/font/local";
+
+import { useState } from "react";
 import Script from "next/script";
-import { EB_Garamond } from "next/font/google";
-import LanguageSelector from "../flagComponents/flagSelector";
 import Image from "next/image";
-import zelleImage from "../../../../../public/offerings/zelle-64.png";
-import Router from "next/router";
+import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import { useRouter } from "next/navigation";
+import zelleImage from "../../../../../public/offerings/zelle-64.png";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
@@ -23,179 +21,106 @@ export default function OfrendaForm({
   bibleVerseCite,
   click,
 }) {
-  // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
-  // State for the form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const { push, refresh } = useRouter();
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle the form data submission here
 
     grecaptcha.ready(() => {
-      // Display the key/value pairs
-      grecaptcha
-        .execute(siteKey, { action: "submit" })
-        .then(async (token) => {
-          const bodyForGoogleResponse = {
-            recaptchaResponse: token,
-          };
+      grecaptcha.execute(siteKey, { action: "submit" }).then(async (token) => {
+        try {
+          const response1 = await fetch("/api/reCaptcha", {
+            method: "POST",
+            headers: { "content-type": "application/json;charset=utf-8" },
+            body: JSON.stringify({ recaptchaResponse: token }),
+          });
 
-          try {
-            const response1 = await fetch("/api/reCaptcha", {
-              method: "POST",
-              headers: { "content-type": "application/json;charset=utf-8" },
-              body: JSON.stringify(bodyForGoogleResponse),
-            });
-
-            if (response1.ok) {
-              const json = await response1.json();
-
-              const bodyNoJson = {
-                name,
-                email,
-                phone,
-                subject: "Ofrenda",
-              };
-
-              const body = JSON.stringify(bodyNoJson);
-              if (json.success) {
-                const response = await fetch("/api/submit", {
-                  method: "POST",
-                  headers: { "content-type": "application/json;charset=utf-8" },
-                  body,
-                });
-                push(`/Ofrenda/Thanks`);
-                Router.push("/Ofrenda/Thanks");
-                refresh();
-              }
-            } else {
-              throw new Error(response1.statusText);
+          if (response1.ok) {
+            const json = await response1.json();
+            if (json.success) {
+              await fetch("/api/submit", {
+                method: "POST",
+                headers: { "content-type": "application/json;charset=utf-8" },
+                body: JSON.stringify({ name, email, phone, subject: "Ofrenda" }),
+              });
+              push(`/Ofrenda/Thanks`);
+              refresh();
             }
-          } catch (error) {}
-        })
-        .catch((error) => {});
+          }
+        } catch {}
+      }).catch(() => {});
     });
   };
 
+  const labelClass = "block text-gray-700 font-bold mb-1.5 text-sm";
+  const inputClass = "border border-blue-950/20 bg-slate-50 rounded-lg px-3 py-2.5 w-full focus:outline-none focus:border-blue-950/50 focus:bg-white transition-colors";
+
   return (
-    <main className={`${ebG.className}`}>
-      <Script
-        src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
-      />
-      <div className="bg-white h-fit w-full flex flex-col text-black">
-        <div className="flex flex-row mb-16 lg:pl-16 text-xl lg:mt-0 mt-32 mx-auto justify-center">
-          {/* Left Hand Side */}
-          <div>
-            <div className="w-2/3 mx-auto">
-              <div className="mb-4 w-11/12 text-center">{thanks}</div>
-              <div className=" rounded-lg  mb-4 px-4 py-3 h-auto bg-purple-300 h-16 flex flex-row justify-around items-center">
-                <div className="flex flex-row items-center">
-                  <Image
-                    src={zelleImage}
-                    alt="zelle-64"
-                    width={64}
-                    height={64}
-                  />
-                </div>{" "}
-                <p className=" text-base">{click}</p>
-                <div
-                  className="text-xl bg-white rounded-md p-2"
-                  onClick={() =>
-                    navigator.clipboard.writeText("(321)-278-3777")
-                  }
-                >
-                  (321)-278-3777
-                </div>
+    <div className={`${ebG.className} bg-white w-full text-black`}>
+      <Script src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} />
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-10 flex flex-col lg:flex-row gap-10">
+
+        {/* Form side */}
+        <div className="flex-1">
+          <p className="text-blue-950/80 text-base mb-5 leading-relaxed">{thanks}</p>
+
+          {/* Zelle CTA */}
+          <div className="flex items-center gap-4 bg-blue-50 border border-blue-950/10 rounded-xl px-4 py-4 mb-6">
+            <Image src={zelleImage} alt="Zelle" width={48} height={48} />
+            <p className="text-sm text-blue-950/70 flex-1">{click}</p>
+            <button
+              type="button"
+              onClick={() => navigator.clipboard.writeText("(321)-278-3777")}
+              className="bg-blue-950 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors whitespace-nowrap"
+            >
+              (321)-278-3777
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-blue-950/5 rounded-2xl p-6">
+            <div>
+              <label htmlFor="name" className={labelClass}>{nameText}</label>
+              <input type="text" id="name" className={inputClass} value={name} onChange={(e) => setName(e.target.value)} required />
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <label htmlFor="phone" className={labelClass}>{phoneText}</label>
+                <input type="tel" id="phone" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} required />
               </div>
-              <form
-                className="bg-blue-200 rounded-lg p-8"
-                onSubmit={handleSubmit}
+              <div className="flex-1">
+                <label htmlFor="email" className={labelClass}>{emailText}</label>
+                <input type="email" id="email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+            </div>
+
+            <div className="mt-2">
+              <button
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 tracking-wide"
               >
-                {/* First Section */}
-                {/* First Row */}
-                <div className=" flex lg:flex-row flex-col gap-x-8 ">
-                  {/* Name */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold mb-2">
-                      <label htmlFor="name">{nameText} </label>
-                    </div>
-                    <input
-                      type="text"
-                      id="name"
-                      className="border bg-slate-200 rounded-lg px-3 py-2 w-full"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Name */}
-                </div>
-                {/* First Row */}
-
-                <div className=" flex lg:flex-row flex-col gap-x-8 ">
-                  {/* Phone */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold mb-2">
-                      <label htmlFor="phone">{phoneText}</label>
-                    </div>
-                    <input
-                      type="tel"
-                      id="phone"
-                      className="border rounded-lg px-3 py-2 bg-slate-200 w-full"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Phone */}
-
-                  {/* Email */}
-                  <div className="mb-4">
-                    <div className="block text-grasupy-700 font-bold mb-2">
-                      <label htmlFor={"email"}> {emailText}</label>
-                    </div>
-                    <input
-                      type="email"
-                      id="email"
-                      className="border rounded-lg bg-slate-200 px-3 py-2 w-full"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Email */}
-                </div>
-                <div className="mt-4">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                  >
-                    {submitText}
-                  </button>
-                </div>
-              </form>
+                {submitText}
+              </button>
             </div>
-          </div>
-          {/* Right hand side */}
-          <div className="w-1/3 hidden lg:block">
-            <div className="relative">
-              <div className="w-[298px]">
-                <div className="text-[34px] capitalize leading-[70.38px]">
-                  {bibleVerse}
-                </div>
-              </div>
-              <div className="text-[51px]">{bibleVerseCite}</div>
-            </div>
-          </div>
-
-          {/* Right Hand side */}
+          </form>
         </div>
+
+        {/* Bible verse sidebar */}
+        <aside className="hidden lg:block w-72 shrink-0">
+          <div className="sticky top-20 border-l-4 border-red-600 pl-5">
+            <blockquote className={`${ebG.className} text-lg text-blue-950 italic leading-relaxed`}>
+              {bibleVerse}
+            </blockquote>
+            <cite className={`${ebG.className} block mt-3 text-base text-blue-950/60 not-italic text-right`}>
+              {bibleVerseCite}
+            </cite>
+          </div>
+        </aside>
       </div>
-    </main>
+    </div>
   );
 }

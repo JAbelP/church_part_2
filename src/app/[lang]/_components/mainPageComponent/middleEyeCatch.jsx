@@ -1,59 +1,37 @@
 "use client";
-import React, { useState } from "react";
+
 import Link from "next/link";
+import { EB_Garamond } from "next/font/google";
 
-function MiddleEyeCatch({ title, desc, imageSrc, urlLink }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const containerStyles = {
-    width: "75%",
-    height: "376px",
-    backgroundImage: `url('${imageSrc}')`,
-    backgroundSize: isHovered ? "750px 976px" : "450px 576px",
-    backgroundPosition: isHovered ? "0px -330px" : "0px -130px",
-    borderRadius: "3rem",
-    marginLeft: "3px",
-    transition: "background-size 0.3s, background-position 0.3s",
-  };
+const ebG = EB_Garamond({ subsets: ["latin"] });
 
-  const overlayStyles = {
-    width: "100%",
-    borderRadius: "3rem",
-    height: "100%",
-    backgroundColor: "rgba(67, 56, 202, 0.5)",
-  };
-
-  const backGroundText = {
-    backdropFilter: "blur(10px)", // Adjust the blur value as needed
-    borderRadius: "1rem", // Adjust the radius as needed to control the roundness of the blur
-    opacity: isHovered ? 0.5 : 0, // Make it visible when isHovered is true, otherwise set opacity to 0
-  };
-
+export default function MiddleEyeCatch({ title, desc, imageSrc, urlLink }) {
   return (
-    <div
-        className={`text-black`}
-        style={containerStyles}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+    <Link href={urlLink} className="group block">
+      <div
+        className="relative rounded-2xl overflow-hidden shadow-md border border-blue-950/10"
+        style={{ height: "320px" }}
       >
-    <Link href={urlLink}>
+        {/* Background image */}
         <div
-          className="w-full h-full rounded-3xl pt-5 pl-5 relative"
-          style={overlayStyles}
-        >
-          <div
-            className="text-4xl font-bold mb-5 opacity-100 text-white absolute"
-            style={backGroundText}
-          >
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+          style={{ backgroundImage: `url('${imageSrc}')` }}
+        />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-blue-950/30 to-transparent" />
+
+        {/* Content */}
+        <div className="absolute bottom-0 left-0 right-0 p-5">
+          <h3 className={`${ebG.className} text-xl md:text-2xl font-bold text-white tracking-wide mb-1`}>
             {title}
-          </div>
-          <div className="text-4xl font-bold mb-5 opacity-100 text-white">
-            {title}
-          </div>
-          <div className="font-medium text-3xl text-white">{desc}</div>
+          </h3>
+          {desc && (
+            <p className={`${ebG.className} text-sm md:text-base text-white/80 leading-snug line-clamp-2`}>
+              {desc}
+            </p>
+          )}
         </div>
-    </Link>
       </div>
+    </Link>
   );
 }
-
-export default MiddleEyeCatch;

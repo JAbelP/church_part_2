@@ -1,71 +1,83 @@
 import Header from "@/app/[lang]/_components/headerComponent/header";
-import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
+import Image from "next/image";
 import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
-import Eventos from "@/app/[lang]/_components/eventosComponents/eventos";
-const ebG = EB_Garamond({ subsets: ["latin"] });
-const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+
+const ebG = EB_Garamond({ subsets: ["latin"] });
+const CopperplateFont = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
     title: t("EventosTitle"),
     description: t("EventosDescription"),
   };
 }
 
-export default async function Home({ params: { lang } }) {
-  const version = process.env.SB_DATA_VERSION;
-  const token = process.env.SB_TOKEN;
-  const url = `https://api-us.storyblok.com/v2/cdn/stories/events?version=${version}&token=${token}&language=${lang}`;
-  let req = await fetch(url, { next: { revalidate: 10 } });
-  const storyData = await req.json();
+// ─── Edit events here ────────────────────────────────────────────────────────
+const events = [
+  {
+    EventName: "Worship Service",
+    EventTime: "Sundays 1:30 PM",
+    EventLocation: "7600 Winegard Rd, Orlando, FL 32809",
+    image: "/SoyNuevoImage/OutSideTheChurch.jpg",
+  },
+  {
+    EventName: "Bible Study",
+    EventTime: "Fridays 7:30 PM",
+    EventLocation: "7600 Winegard Rd, Orlando, FL 32809",
+    image: "/SoyNuevoImage/NewEyeCatch.jpg",
+  },
+];
+// ─────────────────────────────────────────────────────────────────────────────
 
-  const { Title, EventsArrayList } = storyData.story.content;
-  console.log(EventsArrayList[0].EventName);
+export default async function Eventos({ params: { lang } }) {
+  const t = await getTranslations({ locale: lang, namespace: "Metadata" });
 
   return (
-    <main className="bg-white h-fit w-full flex flex-col text-black overflow-x-hidden">
-      <div className="mt-28 mx-auto md:mt-0">
-        <NewMember />
-      </div>
+    <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
       <Header lang={lang} />
-      <div>
-        <div className={CopperplateBold.className}>
-          <div className="text-center text-black lg:text-7xl  text-3xl mt-3   tracking-widest mb-16">
-            {Title}
-          </div>
+
+      <section className="bg-blue-950 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
+          <h1 className={`${CopperplateFont.className} text-white text-3xl md:text-5xl lg:text-6xl tracking-widest`}>
+            {t("EventosTitle")}
+          </h1>
         </div>
-        <div >
-          {EventsArrayList.map((events) => {
-            return (
-              <div
-                className="flex flex-col items-center text-center py-4 lg:flex-row lg:justify-center"
-                key={events.Title}
-              >
-                <div>
-                    <Image
-                      src={events.Image.filename}
-                      alt={events.Title}
-                      width={320}
-                      height={180}
-                      className="rounded-lg"
-                    />
-                </div>
-                <div className="w-10/12 lg:w-3/12 lg:pl-6 pt-2">
-                  <p className="font-bold capitalize">{events.EventName}</p>
-                  <p className="pt-2">{events.EventTime}</p>
-                  <p className="pt-2">{events.EventLocation}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto w-full px-4 md:px-6 py-12 flex flex-col gap-10">
+        {events.map((event) => (
+          <article
+            key={event.EventName}
+            className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-white rounded-2xl shadow-sm border border-blue-950/10 overflow-hidden"
+          >
+            <div className="w-full md:w-72 shrink-0">
+              <Image
+                src={event.image}
+                alt={event.EventName}
+                width={320}
+                height={200}
+                className="w-full h-52 md:h-full object-cover"
+              />
+            </div>
+            <div className={`${ebG.className} flex flex-col gap-2 p-5 md:p-6 text-center md:text-left`}>
+              <h2 className="text-xl md:text-2xl font-bold capitalize text-blue-950">
+                {event.EventName}
+              </h2>
+              {event.EventTime && (
+                <p className="text-blue-950/70 text-base">{event.EventTime}</p>
+              )}
+              {event.EventLocation && (
+                <p className="text-blue-950/60 text-sm">{event.EventLocation}</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </section>
+
       <Footer />
     </main>
   );

@@ -1,25 +1,23 @@
-import React from "react";
 import Image from "next/image";
+import { EB_Garamond } from "next/font/google";
 
-function SubEyeCatch({ names, imageLocation, altText, type }) {
+const ebG = EB_Garamond({ subsets: ["latin"] });
+
+export default function SubEyeCatch({ names, imageLocation, altText }) {
   return (
-    <div className="text-black relative">
-      <div className="flex justify-center items-center">
-        <div className="h-[500px] lg:w-[500px] w-3/5 border-4 border-black relative">
-          <Image
-            src={imageLocation}
-            alt={altText}
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
+    <div className="flex flex-col items-center">
+      <div className="relative w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden shadow-lg border-2 border-blue-950/10">
+        <Image
+          src={imageLocation}
+          alt={altText || names}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 256px, (max-width: 1024px) 288px, 320px"
+        />
       </div>
-      <div className="text-4xl font-normal tracking-widest mt-4 text-center mb-8">
-        
-        <p>{names}</p>
-      </div>
+      <p className={`${ebG.className} text-xl md:text-2xl font-medium tracking-widest text-center mt-4 mb-6 text-blue-950`}>
+        {names}
+      </p>
     </div>
   );
 }
-
-export default SubEyeCatch;

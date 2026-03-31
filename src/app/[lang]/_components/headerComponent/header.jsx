@@ -1,118 +1,143 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import localFont from "next/font/local";
-import { useState, useEffect } from "react";
-import { Hamburger } from "../icons/hamburger";
 
-// Load the font and assign it to a constant in the module scope
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import localFont from "next/font/local";
+
 const TrajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
-function Header(lang) {
-  const [menuOpen, setMenuOpen] = useState(false);
+const languages = [
+  { code: "en", label: "EN" },
+  { code: "es", label: "ES" },
+  { code: "pt", label: "PT" },
+];
 
-  const handleMenuClick = () => {
-    setMenuOpen(!menuOpen);
+function LanguageSwitcher({ currentLang }) {
+  const pathname = usePathname();
+
+  const getLocalizedPath = (targetLang) => {
+    const segments = pathname.split("/").filter(Boolean);
+    const knownLocales = ["en", "es", "pt"];
+    if (knownLocales.includes(segments[0])) {
+      segments[0] = targetLang;
+    } else {
+      segments.unshift(targetLang);
+    }
+    return "/" + segments.join("/");
   };
-  let headerTitles = [
-    { Name: "Who Are We", Link: `/QuienesSomos` },
-    { Name: "Leadership", Link: `/Liderazgo` },
-    { Name: "Ministries", Link: `/Ministerios` },
-    { Name: "Events", Link: `/Eventos` },
-    { Name: "Sermons", Link: `/Sermones` },
-    { Name: "Offerings", Link: `/Ofrenda` },
-  ];
-
-  if (lang.lang === "en") {
-    headerTitles = [
-      { Name: "Who Are We", Link: `/QuienesSomos` },
-      { Name: "Leadership", Link: `/Liderazgo` },
-      { Name: "Ministries", Link: `/Ministerios` },
-      { Name: "Events", Link: `/Eventos` },
-      { Name: "Sermons", Link: `/Sermones` },
-      { Name: "Offerings", Link: `/Ofrenda` },
-    ];
-  }
-
-  if (lang.lang === "es") {
-    headerTitles = [
-      { Name: "¿Quiénes Somos?", Link: `/QuienesSomos` },
-      { Name: "Liderazgo", Link: `/Liderazgo` },
-      { Name: "Ministerios", Link: `/Ministerios` },
-      { Name: "Eventos", Link: `/Eventos` },
-      { Name: "Sermónes", Link: `/Sermones` },
-      { Name: "Ofrendas", Link: `/Ofrenda` },
-    ];
-  }
-
-  if (lang.lang === "pt") {
-    headerTitles = [
-      { Name: "Quem Somos Nós", Link: `/QuienesSomos` },
-      { Name: "Liderança", Link: `/Liderazgo` },
-      { Name: "Ministérios", Link: `/Ministerios` },
-      { Name: "Eventos", Link: `/Eventos` },
-      { Name: "Sermões", Link: `/Sermones` },
-      { Name: "Ofertas", Link: `/Ofrenda` },
-    ];
-  }
 
   return (
-    <div>
-      {/* Full Sized Header */}
-      <div className="hidden lg:block mx-auto">
-        <div className="flex justify-center my-8">
-          <div className="gap-9 flex flex-row">
-            {headerTitles.map((item, index) => (
-              <Link key={index} href={item.Link}>
-                <div className={TrajanProFont.className}>
-                  <p
-                    className={`text-black text-3xl font-bold font-[Trajan Pro] underline capitalize tracking-widest`}
-                  >
-                    {item.Name}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* Full Sized Header */}
-
-      <div
-        className="absolute top-[3.5rem] visible lg:invisible z-30"
-        style={{ right: "1.5rem", top: "38px" }}
-      >
-        <button onClick={handleMenuClick}>
-          <Hamburger />
-        </button>
-      </div>
-      {/* Tray */}
-      <div
-        className={`fixed w-2/3 h-full bg-blue-500 right-0 top-0 duration-300 z-20 transition-transform transform ${
-          menuOpen ? "-translate-x-0" : "translate-x-full"
-        } text-center text-4xl pt-36`}
-      >
-        <ul>
-          {headerTitles.map((header) => {
-            return (
-              <li className="pb-10" key={header.Name}>
-                <Link href={header.Link}>
-                  <div onClick={handleMenuClick}>{header.Name}</div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div
-        onClick={handleMenuClick}
-        className={`fixed w-1/3 h-full bg-blue-950 opacity-75 left-0 top-0 duration-300 z-20 transition-transform transform ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
-        } text-center text-5xl pt-36`}
-      ></div>
-      {/* tray */}
+    <div className="flex items-center gap-1">
+      {languages.map((lang, i) => (
+        <span key={lang.code} className="flex items-center">
+          <Link
+            href={getLocalizedPath(lang.code)}
+            className={`text-xs font-semibold tracking-widest px-1 py-0.5 rounded transition-colors duration-150 ${
+              currentLang === lang.code
+                ? "text-red-600 underline underline-offset-2"
+                : "text-blue-950/60 hover:text-blue-950"
+            }`}
+            style={{ fontFamily: "Inter, sans-serif" }}
+          >
+            {lang.label}
+          </Link>
+          {i < languages.length - 1 && (
+            <span className="text-blue-950/20 text-xs select-none">|</span>
+          )}
+        </span>
+      ))}
     </div>
   );
 }
 
-export default Header;
+export default function Header({ lang }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const t = useTranslations("Header");
+
+  const navLinks = [
+    { label: t("Who Are We"), href: `/${lang}/QuienesSomos` },
+    { label: t("Leadership"), href: `/${lang}/Liderazgo` },
+    { label: t("Ministries"), href: `/${lang}/Ministerios` },
+    { label: t("Events"), href: `/${lang}/Eventos` },
+    { label: t("Sermons"), href: `/${lang}/Sermones` },
+    { label: t("Offerings"), href: `/${lang}/Ofrenda` },
+  ];
+
+  return (
+    <header className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-blue-950/10 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+
+        {/* Logo */}
+        <Link href={`/${lang}`} className="flex items-center shrink-0">
+          <span className={`${TrajanProFont.className} text-blue-950 text-base md:text-lg font-bold tracking-widest`}>
+            Luz <span className="text-red-600">Y</span> Vida
+          </span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`${TrajanProFont.className} text-xs xl:text-sm font-medium text-blue-950 hover:text-red-600 transition-colors duration-150 tracking-widest whitespace-nowrap`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right side: language switcher + mobile toggle */}
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher currentLang={lang} />
+
+          {/* Mobile hamburger */}
+          <button
+            className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 rounded focus:outline-none"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            <span
+              className={`block h-0.5 w-5 bg-blue-950 transition-all duration-200 origin-center ${
+                menuOpen ? "rotate-45 translate-y-2" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 bg-blue-950 transition-opacity duration-200 ${
+                menuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 bg-blue-950 transition-all duration-200 origin-center ${
+                menuOpen ? "-rotate-45 -translate-y-2" : ""
+              }`}
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        } bg-white border-t border-blue-950/10`}
+      >
+        <nav className="flex flex-col px-6 py-2">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className={`${TrajanProFont.className} text-blue-950 hover:text-red-600 text-sm font-medium tracking-wider py-3 border-b border-blue-950/5 last:border-b-0 transition-colors duration-150`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}

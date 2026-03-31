@@ -1,121 +1,96 @@
 import Header from "@/app/[lang]/_components/headerComponent/header";
-
-import NewMember from "@/app/[lang]/_components/newMemberComponent/newMember";
 import Footer from "@/app/[lang]/_components/footerComponent/footer";
-import { EB_Garamond } from "next/font/google";
 import SubEyeCatch from "@/app/[lang]/_components/ministeriosComponents/subEyeCatch";
 import localFont from "next/font/local";
-import LanguageSelector from "@/app/[lang]/_components/flagComponents/flagSelector";
 import { getTranslations } from "next-intl/server";
-const ebG = EB_Garamond({ subsets: ["latin"] });
-const CopperplateBold = localFont({ src: "../../font/CopperplateBold.ttf" });
 
-// export const metadata = {
-//   title: "Liderazgo",
-//   description: "Conozca el liderazgo",
-// };
+const CopperplateFont = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
     title: t("LeadershipTitle"),
     description: t("LeadershipDescription"),
   };
 }
 
+// ─── Edit leadership here ─────────────────────────────────────────────────────
+const leadership = {
+  pastorHeader: "Senior Pastor",
+  pastor: { Name: "Tomas & Ingrid Ramirez", photo: "/Liderazgo/pastors.webp" },
 
-export default async function Home({ params: { lang } }) {
-  const version = process.env.SB_DATA_VERSION;
-  const token = process.env.SB_TOKEN;
-  const url = `https://api-us.storyblok.com/v2/cdn/stories/leadership?version=${version}&token=${token}&language=${lang}`;
-  let req = await fetch(url, { next: { revalidate: 10 } });
-  const storyData = await req.json();
-  console.log(storyData.story.content.Pastor[0].Name)
+  associateHeader: "Associate Pastor",
+  associate: { Name: "Aldo & Brenda Colon", photo: "/Liderazgo/associate.jpg" },
 
-  const {
-    Title,
-    PastorHeader,
-    Pastor,
-    AssociatePastorHeader,
-    AssociatePastores,
-    DeconsHeader,
-    Decons,
-    WorshipLeaderHeader,
-    WorshipLeader,
-  } = storyData.story.content;
+  deaconsHeader: "Deacons",
+  deacons: [
+    { Name: "Wellington & Marcia De Jesus", photo: "/Liderazgo/decon1.webp" },
+    { Name: "Jose & Ana Paula De La Rosa", photo: "/Liderazgo/decon2.webp" },
+  ],
+
+  worshipHeader: "Worship Leader",
+  worshipLeader: { Name: "Moisés Ramirez", photo: "/Liderazgo/worship.webp" },
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
+export default async function Liderazgo({ params: { lang } }) {
+  const t = await getTranslations({ locale: lang, namespace: "Metadata" });
 
   return (
-    <main className={`${ebG.className} overflow-x-hidden`}>
-      <div className="bg-white h-fit w-full flex flex-col text-black">
-        <div className="mt-28 mx-auto md:mt-0">
-          <NewMember />
-        </div>
-        <LanguageSelector />
-        <div className="mt-13 md:mt-0">
-          <Header lang={lang} />
-        </div>
+    <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
+      <Header lang={lang} />
 
-        <div className={CopperplateBold.className}>
-          <div className="text-center text-black lg:text-7xl text-3xl  tracking-widest lg:mb-16 my-5">
-            {Title}
-          </div>
+      <section className="bg-blue-950 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
+          <h1 className={`${CopperplateFont.className} text-white text-3xl md:text-5xl lg:text-6xl tracking-widest`}>
+            {t("LeadershipTitle")}
+          </h1>
         </div>
+      </section>
 
-        <div className="text-5xl font-medium tracking-widest mx-auto uppercase">
-          {PastorHeader}
-        </div>
-        <div className="flex flex-col">
-          <div>
-            <SubEyeCatch
-              names={Pastor[0].Name}
-              imageLocation={Pastor[0].Photo.filename}
-              altText={Pastor[0].Photo.filename}
-            />
-          </div>
-          <div className="text-4xl font-medium tracking-widest uppercase text-center justify-center mx-auto">
-            {AssociatePastorHeader}
-          </div>
-          <div>
-            <SubEyeCatch
-              names={AssociatePastores[0].Name}
-              imageLocation={AssociatePastores[0].Photo.filename}
-              altText={AssociatePastores[0].Photo.filename}
-            />
-          </div>
-        </div>
+      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-12 flex flex-col gap-16">
 
-        <div className=" mt-16">
-          <div className=" mb-8 text-center  text-4xl font-medium tracking-widest">
-            {DeconsHeader}
+        <section>
+          <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
+            {leadership.pastorHeader}
+          </h2>
+          <div className="flex justify-center">
+            <SubEyeCatch names={leadership.pastor.Name} imageLocation={leadership.pastor.photo} altText={leadership.pastor.Name} />
           </div>
-          <div className="flex md:flex-row md:justify-evenly flex-col gap-y-16">
-            {Decons.map((decon) => {
-              return (
-                <SubEyeCatch
-                  names={decon.Name}
-                  imageLocation={decon.Photo.filename}
-                  altText={decon.Photo.filename}
-                />
-              );
-            })}
-          </div>
-        </div>
-        <div className=" mt-16">
-          <div className=" mb8 text-center  text-4xl font-medium tracking-widest">
-            {WorshipLeaderHeader}
-          </div>
-          <div className="flex md:flex-row md:justify-evenly flex-col gap-y-16">
-            <SubEyeCatch
-              names={WorshipLeader[0].Name}
-              imageLocation={WorshipLeader[0].Photo.filename}
-              altText={WorshipLeader[0].Photo.filename}
-            />
-          </div>
-        </div>
+        </section>
 
-        <Footer />
+        <section>
+          <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
+            {leadership.associateHeader}
+          </h2>
+          <div className="flex justify-center">
+            <SubEyeCatch names={leadership.associate.Name} imageLocation={leadership.associate.photo} altText={leadership.associate.Name} />
+          </div>
+        </section>
+
+        <section>
+          <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
+            {leadership.deaconsHeader}
+          </h2>
+          <div className="flex flex-col md:flex-row md:justify-evenly md:flex-wrap gap-8">
+            {leadership.deacons.map((deacon) => (
+              <SubEyeCatch key={deacon.Name} names={deacon.Name} imageLocation={deacon.photo} altText={deacon.Name} />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
+            {leadership.worshipHeader}
+          </h2>
+          <div className="flex justify-center">
+            <SubEyeCatch names={leadership.worshipLeader.Name} imageLocation={leadership.worshipLeader.photo} altText={leadership.worshipLeader.Name} />
+          </div>
+        </section>
+
       </div>
+
+      <Footer />
     </main>
   );
 }

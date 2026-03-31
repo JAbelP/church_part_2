@@ -1,17 +1,18 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import LanguageSelector from "./_components/flagComponents/flagSelector";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({ children, params: { locale } }) {
+export default async function RootLayout({ children, params: { lang } }) {
+  const messages = await getMessages();
   return (
-    <html lang={locale}>
+    <html lang={lang}>
       <body className={inter.className}>
-        <>
-          <LanguageSelector />
+        <NextIntlClientProvider locale={lang} messages={messages}>
           {children}
-        </>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

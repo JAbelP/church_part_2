@@ -1,28 +1,35 @@
+import Header from "@/app/[lang]/_components/headerComponent/header";
 import EntirePage from "@/app/[lang]/_components/newMemberComponent/newMemberEntirePage";
-import { useTranslations } from "next-intl";
+import Footer from "@/app/[lang]/_components/footerComponent/footer";
+import localFont from "next/font/local";
 import { getTranslations } from "next-intl/server";
-import Footer from "../_components/footerComponent/footer";
 
-// export const metadata = {
-//   title: "Soy Nuevo",
-//   description: "Únase a nuestra Iglesia",
-// };
+const CopperplateFont = localFont({ src: "../../font/CopperplateBold.ttf" });
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
     title: t("NewMemberTitle"),
     description: t("NewMemberDescription"),
   };
 }
 
-export default function Home({ params: { lang } }) {
-  const t = useTranslations("NewMembers");
-  const h = useTranslations("Header");
+export default async function SoyNuevo({ params: { lang } }) {
+  const t = await getTranslations({ locale: lang, namespace: "NewMembers" });
 
   return (
-    <>
+    <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
+      <Header lang={lang} />
+
+      {/* Page title */}
+      <section className="bg-blue-950 py-10 md:py-14">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
+          <h1 className={`${CopperplateFont.className} text-white text-3xl md:text-4xl lg:text-5xl tracking-widest`}>
+            {t("About You")}
+          </h1>
+        </div>
+      </section>
+
       <EntirePage
         aboutYouHeader={t("About You")}
         nameText={t("Name")}
@@ -49,7 +56,8 @@ export default function Home({ params: { lang } }) {
         bibleVerse={t("Bible Verse")}
         bibleVerseCite={t("Bible Verse Cite")}
       />
-<Footer/>
-    </>
+
+      <Footer />
+    </main>
   );
 }

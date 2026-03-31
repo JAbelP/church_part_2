@@ -1,30 +1,35 @@
-import React from "react";
 import Link from "next/link";
-import heroBanner from "../../../../../public/SoyNuevoImage/preChanges.webp";
 import Image from "next/image";
+import heroBanner from "../../../../../public/SoyNuevoImage/preChanges.webp";
 import { EB_Garamond } from "next/font/google";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 
-function NewMember() {
-  const t = useTranslations('newMemberComponent')
+export default async function NewMember() {
+  const t = await getTranslations("newMemberComponent");
+
   return (
-    <div className="bg-red-600 rounded-md mx-auto md:w-[1220px] md:min-h-[379px] w-3/4 flex flex-col justify-end relative">
+    <div className="relative w-full max-w-7xl mx-auto rounded-xl overflow-hidden shadow-lg">
       <Image
-        className="rounded-md w-[12204px] min-h-[379px] max-h-[379px] border-sky-500 border-8"
         src={heroBanner}
-        alt={"Welcome new members!"}
+        alt="Welcome new members!"
+        className="w-full object-cover"
+        style={{ maxHeight: "380px", objectPosition: "center" }}
+        priority
       />
-      <Link href={"/SoyNuevo"}>
-        <button className="bg-sky-500 p-3 rounded-xl text-3xl absolute bottom-14 right-20 text-black">
-          <div className={ebG.className}>
-          {t('Call To Action')}
-          </div>
-        </button>
-      </Link>
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-blue-950/40" />
+
+      {/* CTA button */}
+      <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10">
+        <Link
+          href="/SoyNuevo"
+          className={`${ebG.className} inline-block bg-red-600 hover:bg-red-700 text-white text-base md:text-lg font-semibold px-6 py-3 rounded-lg shadow-md transition-colors duration-200`}
+        >
+          {t("Call To Action")}
+        </Link>
+      </div>
     </div>
   );
 }
-
-export default NewMember;

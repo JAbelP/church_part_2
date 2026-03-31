@@ -1,19 +1,15 @@
 "use client";
-import React, { useState } from "react";
-import Header from "../headerComponent/header";
-import Footer from "../footerComponent/footer";
-import localFont from "next/font/local";
+
+import { useState } from "react";
 import Script from "next/script";
 import { EB_Garamond } from "next/font/google";
-import LanguageSelector from "../flagComponents/flagSelector";
+import localFont from "next/font/local";
 import { useRouter } from "next/navigation";
-import Router from "next/router";
 
 const ebG = EB_Garamond({ subsets: ["latin"] });
 const trajanProFont = localFont({ src: "../../../font/TrajanProR.ttf" });
 
 export default function EntirePage({
-  langauge,
   aboutYouHeader,
   nameText,
   ageText,
@@ -39,273 +35,150 @@ export default function EntirePage({
   bibleVerse,
   bibleVerseCite,
 }) {
-  // set up for reCaptcha
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
-  // State for the form fields
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [gender, setGender] = useState(""); // Added state for gender
+  const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [heard, setHeard] = useState(""); // Added state for gender
-  const [wouldLikeTo, setWouldLikeTo] = useState(""); // Added state for gender
-  const [petition, setPetition] = useState(""); // Added state for gender
-  const { push,refresh } = useRouter();
+  const [heard, setHeard] = useState("");
+  const [wouldLikeTo, setWouldLikeTo] = useState("");
+  const [petition, setPetition] = useState("");
+  const { push, refresh } = useRouter();
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle the form data submission here
 
     grecaptcha.ready(() => {
-      // Display the key/value pairs
-      grecaptcha
-        .execute(siteKey, { action: "submit" })
-        .then(async (token) => {
-          const bodyForGoogleResponse = {
-            recaptchaResponse: token,
-          };
+      grecaptcha.execute(siteKey, { action: "submit" }).then(async (token) => {
+        try {
+          const response1 = await fetch(`/api/reCaptcha`, {
+            method: "POST",
+            headers: { "content-type": "application/json;charset=utf-8" },
+            body: JSON.stringify({ recaptchaResponse: token }),
+          });
 
-          try {
-            const response1 = await fetch(`/api/reCaptcha`, {
-              method: "POST",
-              headers: { "content-type": "application/json;charset=utf-8" },
-              body: JSON.stringify(bodyForGoogleResponse),
-            });
-
-            if (response1.ok) {
-              const json = await response1.json();
-
-              const bodyNoJson = {
-                name,
-                age,
-                gender,
-                email,
-                phone,
-                heard,
-                wouldLikeTo,
-                petition,
-                subject: "New Member",
-              };
-
-              const body = JSON.stringify(bodyNoJson);
-              if (json.success) {
-                const response = await fetch("/api/submit", {
-                  method: "POST",
-                  headers: { "content-type": "application/json;charset=utf-8" },
-                  body,
-                });
-                push(`/SoyNuevo/Success`);
-                Router.push(`/SoyNuevo/Success`);
-                refresh();
-                
-              }
-            } else {
-              throw new Error(response1.statusText);
+          if (response1.ok) {
+            const json = await response1.json();
+            if (json.success) {
+              await fetch("/api/submit", {
+                method: "POST",
+                headers: { "content-type": "application/json;charset=utf-8" },
+                body: JSON.stringify({ name, age, gender, email, phone, heard, wouldLikeTo, petition, subject: "New Member" }),
+              });
+              push(`/SoyNuevo/Success`);
+              refresh();
             }
-          } catch (error) {}
-        })
-        .catch((error) => {});
+          }
+        } catch {}
+      }).catch(() => {});
     });
   };
 
+  const labelClass = "block text-gray-700 font-bold mb-1.5 text-sm";
+  const inputClass = "border border-blue-950/20 bg-slate-50 rounded-lg px-3 py-2.5 w-full focus:outline-none focus:border-blue-950/50 focus:bg-white transition-colors";
+  const selectClass = "border border-blue-950/20 bg-slate-50 rounded-lg px-3 py-2.5 w-full focus:outline-none focus:border-blue-950/50 transition-colors";
+  const sectionHeadClass = `${trajanProFont.className} text-xl md:text-2xl font-extrabold mb-5 mt-8 text-blue-950 tracking-wider border-b border-red-600/30 pb-2`;
+
   return (
-    <main className={ebG.className}>
-      <Script
-        src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
-      />
-      <div className="bg-white h-fit w-full flex flex-col text-black">
-        {/* <div className="m-auto"></div> */}
-        <Header lang={"en"} />
-        <LanguageSelector />
-        <div className="flex flex-row mb-16 pl-16 text-xl lg:mt-0 mt-32">
-          {/* Left Hand Side */}
-          <div className="w-2/3">
-            <div>
-              <div className={trajanProFont.className}>
-                <div className="text-4xl font-extrabold mb-4">
-                  {aboutYouHeader}
-                  {/* <HeaderText aText={"About You"} /> */}
+    <>
+      <Script src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} />
+      <div className={`${ebG.className} bg-white w-full text-black`}>
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-10 flex flex-col lg:flex-row gap-10">
+
+          {/* Form */}
+          <div className="flex-1">
+            <h2 className={sectionHeadClass}>{aboutYouHeader}</h2>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <label htmlFor="name" className={labelClass}>{nameText}</label>
+                  <input type="text" id="name" className={inputClass} value={name} onChange={(e) => setName(e.target.value)} required />
+                </div>
+                <div className="flex-1">
+                  <label htmlFor="age" className={labelClass}>{ageText}</label>
+                  <input type="number" id="age" className={inputClass} value={age} onChange={(e) => setAge(e.target.value)} required />
                 </div>
               </div>
-              <form onSubmit={handleSubmit}>
-                {/* First Section */}
-                {/* First Row */}
-                <div className=" flex lg:flex-row flex-col gap-x-8 ">
-                  {/* Name */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold mb-2">
-                      <label htmlFor="name">{nameText} </label>
-                    </div>
-                    <input
-                      type="text"
-                      id="name"
-                      className="border bg-slate-200 rounded-lg px-3 py-2 w-full"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Name */}
 
-                  {/* Age */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold mb-2">
-                      <label htmlFor="age">{ageText}</label>
-                    </div>
-                    <input
-                      type="number"
-                      id="age"
-                      className="border rounded-lg bg-slate-200 px-3 py-2 w-full"
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Age */}
-                </div>
-                {/* 2nd Row */}
-                <div className="mb-4">
-                  <div className="block text-gray-700 font-bold mb-2">
-                    <label htmlFor={"gender"}>{genderText}</label>
-                  </div>
-                  <select
-                    id="gender"
-                    className="border rounded-lg px-3 py-2 w-[220.400px]"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    required
-                  >
-                    <option value="">{selectGender}</option>
-                    <option value="Male">{Male}</option>
-                    <option value="Female">{Female}</option>
-                  </select>
-                </div>
-                {/* 2nd Section */}
-                {/* First Row */}
-                <div className={trajanProFont.className}>
-                  <div className="text-4xl font-extrabold mb-4 mt-12 lg:mt-6">
-                    <h1>{contactInformation}</h1>
-                  </div>
-                </div>
-                <div className=" flex lg:flex-row flex-col gap-x-8 ">
-                  {/* Phone */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold mb-2">
-                      <label htmlFor="phone">{phoneText}</label>
-                    </div>
-                    <input
-                      type="tel"
-                      id="phone"
-                      className="border rounded-lg px-3 py-2 bg-slate-200 w-full"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Phone */}
+              <div className="max-w-xs">
+                <label htmlFor="gender" className={labelClass}>{genderText}</label>
+                <select id="gender" className={selectClass} value={gender} onChange={(e) => setGender(e.target.value)} required>
+                  <option value="">{selectGender}</option>
+                  <option value="Male">{Male}</option>
+                  <option value="Female">{Female}</option>
+                </select>
+              </div>
 
-                  {/* Email */}
-                  <div className="mb-4">
-                    <div className="block text-grasupy-700 font-bold mb-2">
-                      <label htmlFor={"email"}> {emailText}</label>
-                    </div>
-                    <input
-                      type="email"
-                      id="email"
-                      className="border rounded-lg bg-slate-200 px-3 py-2 w-full"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  {/* Email */}
+              <h2 className={sectionHeadClass}>{contactInformation}</h2>
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <label htmlFor="phone" className={labelClass}>{phoneText}</label>
+                  <input type="tel" id="phone" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 </div>
-                {/* 3rd Section */}
-                <div className={trajanProFont.className}>
-                  <div className="text-4xl font-extrabold mb-4 mt-12 lg:mt-6">
-                    <h1>{additionalInformation}</h1>
-                  </div>
+                <div className="flex-1">
+                  <label htmlFor="email" className={labelClass}>{emailText}</label>
+                  <input type="email" id="email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
-                {/* how did you hear about us */}
-                <div className="mb-4">
-                  <div className="block text-gray-700 font-bold mb-2 capitalize">
-                    <label htmlFor="heard">{howDidYouHear}</label>
-                  </div>
-                  <select
-                    id="heard"
-                    className="border rounded-lg px-3 py-2 w-[220.400px]"
-                    value={heard}
-                    onChange={(e) => setHeard(e.target.value)}
-                    required
-                  >
+              </div>
+
+              <h2 className={sectionHeadClass}>{additionalInformation}</h2>
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <label htmlFor="heard" className={labelClass}>{howDidYouHear}</label>
+                  <select id="heard" className={selectClass} value={heard} onChange={(e) => setHeard(e.target.value)} required>
                     <option value="">{selectAnOption}</option>
                     <option value="Friend">{friend}</option>
                     <option value="Evangalism">{Evangalism}</option>
                     <option value="Facebook">{Facebook}</option>
                   </select>
-                  {/* how did you hear about us? */}
-                  {/* would like to */}
-                  <div className="mb-4">
-                    <div className="block text-gray-700 font-bold my-2 capitalize">
-                      <label htmlFor={"wouldLikeTo"}>{iWouldLikeTo}</label>
-                    </div>
-                    <select
-                      id="wouldLikeTo"
-                      className="border rounded-lg px-3 py-2 w-[220.400px]"
-                      value={wouldLikeTo}
-                      onChange={(e) => setWouldLikeTo(e.target.value)}
-                      required
-                    >
-                      <option value="">{selectAnOption}</option>
-                      <option value="Join The Church">{joinTheChurch}</option>
-                      <option value="Convert">{Convert}</option>
-                      <option value="Talk To Someone">{talkToSomeone}</option>
-                    </select>
-                  </div>
-                  {/* would like to */}
-                  {/* Do you have a Petition */}
-                  <div className="mb-4">
-                    <div className="mb-4">
-                      <div className="block text-gray-700 font-bold mb-2">
-                        <label htmlFor="petition">{doYouHaveaPetition}</label>
-                      </div>
-                      <textarea
-                        id="petition"
-                        className="border rounded-lg px-3 py-2 h-56 bg-slate-200 w-full"
-                        value={petition}
-                        onChange={(e) => setPetition(e.target.value)}
-                      />
-                    </div>
-                  </div>
                 </div>
-
-                <div className="mt-4">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                  >
-                    {submitText}{" "}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-          {/* Right hand side */}
-          <div className="w-1/3 hidden lg:block">
-            <div className="relative">
-              <div className="w-[298px]">
-                <div className="text-[34px] capitalize leading-[70.38px]">
-                  {bibleVerse}
+                <div className="flex-1">
+                  <label htmlFor="wouldLikeTo" className={labelClass}>{iWouldLikeTo}</label>
+                  <select id="wouldLikeTo" className={selectClass} value={wouldLikeTo} onChange={(e) => setWouldLikeTo(e.target.value)} required>
+                    <option value="">{selectAnOption}</option>
+                    <option value="Join The Church">{joinTheChurch}</option>
+                    <option value="Convert">{Convert}</option>
+                    <option value="Talk To Someone">{talkToSomeone}</option>
+                  </select>
                 </div>
               </div>
-              <div className="text-[51px]">{bibleVerseCite}</div>
-            </div>
+
+              <div>
+                <label htmlFor="petition" className={labelClass}>{doYouHaveaPetition}</label>
+                <textarea
+                  id="petition"
+                  className={`${inputClass} h-40 resize-none`}
+                  value={petition}
+                  onChange={(e) => setPetition(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-2">
+                <button
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 tracking-wide"
+                >
+                  {submitText}
+                </button>
+              </div>
+            </form>
           </div>
 
-          {/* Right Hand side */}
+          {/* Bible verse sidebar */}
+          <aside className="hidden lg:block w-72 shrink-0">
+            <div className="sticky top-20 border-l-4 border-red-600 pl-5">
+              <blockquote className={`${ebG.className} text-lg text-blue-950 italic leading-relaxed`}>
+                {bibleVerse}
+              </blockquote>
+              <cite className={`${ebG.className} block mt-3 text-base text-blue-950/60 not-italic text-right`}>
+                {bibleVerseCite}
+              </cite>
+            </div>
+          </aside>
         </div>
       </div>
-    </main>
+    </>
   );
 }
