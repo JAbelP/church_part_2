@@ -23,6 +23,7 @@
   },
   "Offering": {
     "Title": "Ofrenda",
+    "Instruction": "Gracias por apoyar nuestros Ministerios. Aceptamos pagos a través de Zelle. Por favor, complete la información a continuación para fines fiscales.",
     "Name": "Nombre",
     "Phone": "Teléfono",
     "Email": "E-mail",
@@ -72,7 +73,10 @@
     "Ministries": "MINISTERIOS",
     "Read More About Our Leadership": "Leer Más Sobre Nuestra Dirección",
     "Learn More About Our Ministries": "Conocer Más Sobre Nuestros Ministerios",
-    "Learn More About Our Church": "Conocer Más Sobre Nuestra Iglesia"
+    "Learn More About Our Church": "Conocer Más Sobre Nuestra Iglesia",
+    "Leadership Desc": "Conoce a los pastores y líderes que guían nuestra congregación.",
+    "Ministries Desc": "Descubre las muchas maneras de servir y crecer en la fe.",
+    "Who Are We Desc": "Conoce nuestra misión, visión y valores."
   },
   "NewMembers": {
     "About You": "Acerca de Ti",
@@ -123,6 +127,24 @@
     "example2": "ejemplo",
     "Minstries": "Ministerios",
     "Evenglism": "Evangelismo",
+    "Evangelism Short": "Llevando las Buenas Nuevas de Jesucristo a nuestra comunidad y más allá.",
+    "Worship Short": "Enriqueciendo nuestra vida espiritual a través de la música y la adoración.",
+    "Christian Education Short": "Creciendo juntos en el conocimiento y la fe de Jesucristo.",
+    "Missions Short": "Respondiendo al llamado de Cristo de llevar el Evangelio hasta los confines de la tierra.",
+    "Prayer Short": "Sosteniendo la vida espiritual de la iglesia mediante la oración constante y ferviente.",
+    "Mens Ministry Short": "Conectando a los hombres con Dios, Su Palabra y entre sí.",
+    "Womens Ministry Short": "Capacitando a las mujeres para crecer en la fe e impactar sus hogares y comunidad.",
+    "Youth Ministry Short": "Capturando los corazones de los jóvenes a través del amor de Jesús.",
+    "Childrens Ministry Short": "Guiando a los niños a amar a Jesús y ser llenos del Espíritu Santo.",
+    "Evangelism Title": "Evangelismo",
+    "Worship Title": "Adoración y Alabanza",
+    "Christian Education Title": "Educación Cristiana",
+    "Missions Title": "Misiones",
+    "Prayer Title": "Oración",
+    "Mens Ministry Title": "Ministerio de Hombres",
+    "Womens Ministry Title": "Ministerio de Mujeres",
+    "Youth Ministry Title": "Ministerio de Jóvenes",
+    "Childrens Ministry Title": "Ministerio Infantil",
     "Small Health Groups": "Grupos Pequeños de Salud",
     "WORSHIP AND PRAISE": "ADORACIÓN Y ALABANZA",
     "CHRISTIAN EDUCATION": "EDUCACIÓN CRISTIANA",
@@ -152,7 +174,10 @@
     "Pastors": "Pastores",
     "Associate Pastores": "Pastores Asociados",
     "Decons": "Diáconos",
-    "Worship Leader": "Lider de Adoracion"
+    "Worship Leader": "Lider de Adoracion",
+    "Senior Pastor": "Pastor Principal",
+    "Associate Pastor": "Pastor Asociado",
+    "Deacons": "Diáconos"
   },
   "Events": {
     "event1": "Grupo de Adoración",
@@ -160,7 +185,12 @@
     "eventLocation1": "2318 Cilantro Dr. Orlando FL 32837",
     "event2": "Estudio Bíblico",
     "eventTime2": "Sábado 6:30 PM",
-    "Events": "Eventos"
+    "Events": "Eventos",
+    "Worship Service": "Servicio de Adoración",
+    "Worship Service Time": "Domingos 1:30 PM",
+    "Bible Study": "Estudio Bíblico",
+    "Bible Study Time": "Viernes 7:30 PM",
+    "Event Location": "7600 Winegard Rd, Orlando, FL 32809"
   },
   "Header": {
     "Who Are We": "¿Quiénes Somos?",
@@ -177,6 +207,9 @@
     "Visit": "Visítanos",
     "Hours": "Horario",
     "Time1": "Domingo 1:30 PM",
-    "Time2": "Viernes 7:30 PM"
+    "Time2": "Viernes 7:30 PM",
+    "Address": "7600 Winegard Rd.",
+    "City": "Orlando, FL 32809",
+    "Mosaic": "Conferencia Menonita Mosaico"
   }
 }

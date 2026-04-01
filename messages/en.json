@@ -71,10 +71,13 @@
     "About Us": "ABOUT US",
     "Bible Verse": "He hath shewed thee, O man, what is good; and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?",
     "Bible Verse Cite": "-Micah 6:8",
-    "Ministries": "MINISTRES",
+    "Ministries": "MINISTRIES",
     "Read More About Our Leadership": "Read More About Our Leadership",
     "Learn More About Our Ministries": "Learn More About Our Ministries",
-    "Learn More About Our Church": "Learn More About Our Church"
+    "Learn More About Our Church": "Learn More About Our Church",
+    "Leadership Desc": "Meet the pastors and leaders guiding our congregation.",
+    "Ministries Desc": "Discover the many ways to serve and grow in faith.",
+    "Who Are We Desc": "Learn about our mission, vision and values."
   },
   "NewMembers": {
     "About You": "About You",
@@ -125,6 +128,24 @@
     "example2": "example",
     "Minstries": "Minstries",
     "Evenglism": "Evenglism",
+    "Evangelism Short": "Bringing the Good News of Jesus Christ to our community and beyond.",
+    "Worship Short": "Enriching our spiritual life through music and corporate worship.",
+    "Christian Education Short": "Growing together in the knowledge and faith of Jesus Christ.",
+    "Missions Short": "Responding to Christ's call to carry the Gospel to the ends of the earth.",
+    "Prayer Short": "Sustaining the spiritual life of the church through constant, fervent prayer.",
+    "Mens Ministry Short": "Connecting men with God, His Word, and each other.",
+    "Womens Ministry Short": "Empowering women to grow in faith and impact their homes and community.",
+    "Youth Ministry Short": "Capturing the hearts of young people through the love of Jesus.",
+    "Childrens Ministry Short": "Leading children to love Jesus and be filled with the Holy Spirit.",
+    "Evangelism Title": "Evangelism",
+    "Worship Title": "Worship & Praise",
+    "Christian Education Title": "Christian Education",
+    "Missions Title": "Missions",
+    "Prayer Title": "Prayer",
+    "Mens Ministry Title": "Men's Ministry",
+    "Womens Ministry Title": "Women's Ministry",
+    "Youth Ministry Title": "Youth Ministry",
+    "Childrens Ministry Title": "Children's Ministry",
     "Small Health Groups": "Small Health Groups",
     "WORSHIP AND PRAISE": "WORSHIP AND PRAISE",
     "CHRISTIAN EDUCATION": "CHRISTIAN EDUCATION",
@@ -154,7 +175,10 @@
     "Pastors": "Pastores",
     "Associate Pastores": "Associate Pastores",
     "Decons": "Decons",
-    "Worship Leader": "Worship Leader"
+    "Worship Leader": "Worship Leader",
+    "Senior Pastor": "Senior Pastor",
+    "Associate Pastor": "Associate Pastor",
+    "Deacons": "Deacons"
   },
   "Events": {
     "event1": "Worship Group",
@@ -162,7 +186,12 @@
     "eventLocation1": "2318 Cilantro Dr. Orlando FL 32837",
     "event2": "Bible Study",
     "eventTime2": "Saturday 6:30 PM",
-    "Events": "Events"
+    "Events": "Events",
+    "Worship Service": "Worship Service",
+    "Worship Service Time": "Sundays 1:30 PM",
+    "Bible Study": "Bible Study",
+    "Bible Study Time": "Fridays 7:30 PM",
+    "Event Location": "7600 Winegard Rd, Orlando, FL 32809"
   },
   "Header": {
     "Who Are We": "Who Are We",
@@ -179,6 +208,9 @@
     "Visit": "Visit Us",
     "Hours": "Hours",
     "Time1": "Sunday 1:30 PM",
-    "Time2": "Friday 7:30 PM"
+    "Time2": "Friday 7:30 PM",
+    "Address": "7600 Winegard Rd.",
+    "City": "Orlando, FL 32809",
+    "Mosaic": "Mosaic Mennonite Conference"
   }
 }

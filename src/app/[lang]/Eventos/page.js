@@ -16,25 +16,26 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-// ─── Edit events here ────────────────────────────────────────────────────────
-const events = [
-  {
-    EventName: "Worship Service",
-    EventTime: "Sundays 1:30 PM",
-    EventLocation: "7600 Winegard Rd, Orlando, FL 32809",
-    image: "/SoyNuevoImage/OutSideTheChurch.jpg",
-  },
-  {
-    EventName: "Bible Study",
-    EventTime: "Fridays 7:30 PM",
-    EventLocation: "7600 Winegard Rd, Orlando, FL 32809",
-    image: "/SoyNuevoImage/NewEyeCatch.jpg",
-  },
-];
-// ─────────────────────────────────────────────────────────────────────────────
-
 export default async function Eventos({ params: { lang } }) {
   const t = await getTranslations({ locale: lang, namespace: "Metadata" });
+  const tE = await getTranslations({ locale: lang, namespace: "Events" });
+
+  // ─── Edit events here ────────────────────────────────────────────────────
+  const events = [
+    {
+      nameKey: "Worship Service",
+      timeKey: "Worship Service Time",
+      locationKey: "Event Location",
+      image: "/SoyNuevoImage/OutSideTheChurch.jpg",
+    },
+    {
+      nameKey: "Bible Study",
+      timeKey: "Bible Study Time",
+      locationKey: "Event Location",
+      image: "/SoyNuevoImage/NewEyeCatch.jpg",
+    },
+  ];
+  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
@@ -51,13 +52,13 @@ export default async function Eventos({ params: { lang } }) {
       <section className="max-w-5xl mx-auto w-full px-4 md:px-6 py-12 flex flex-col gap-10">
         {events.map((event) => (
           <article
-            key={event.EventName}
+            key={event.nameKey}
             className="flex flex-col md:flex-row gap-6 items-center md:items-start bg-white rounded-2xl shadow-sm border border-blue-950/10 overflow-hidden"
           >
             <div className="w-full md:w-72 shrink-0">
               <Image
                 src={event.image}
-                alt={event.EventName}
+                alt={tE(event.nameKey)}
                 width={320}
                 height={200}
                 className="w-full h-52 md:h-full object-cover"
@@ -65,14 +66,10 @@ export default async function Eventos({ params: { lang } }) {
             </div>
             <div className={`${ebG.className} flex flex-col gap-2 p-5 md:p-6 text-center md:text-left`}>
               <h2 className="text-xl md:text-2xl font-bold capitalize text-blue-950">
-                {event.EventName}
+                {tE(event.nameKey)}
               </h2>
-              {event.EventTime && (
-                <p className="text-blue-950/70 text-base">{event.EventTime}</p>
-              )}
-              {event.EventLocation && (
-                <p className="text-blue-950/60 text-sm">{event.EventLocation}</p>
-              )}
+              <p className="text-blue-950/70 text-base">{tE(event.timeKey)}</p>
+              <p className="text-blue-950/60 text-sm">{tE(event.locationKey)}</p>
             </div>
           </article>
         ))}

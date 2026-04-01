@@ -28,7 +28,7 @@ export default async function Footer() {
               rel="noopener noreferrer"
               className="inline-block mt-4 text-xs text-white/40 hover:text-white/70 transition-colors duration-150 tracking-wider uppercase"
             >
-              Mosaic Mennonite Conference
+              {t("Mosaic")}
             </a>
           </div>
 
@@ -38,8 +38,8 @@ export default async function Footer() {
               {t("Visit")}
             </p>
             <address className={`${ebG.className} not-italic text-white/60 text-base leading-relaxed`}>
-              7600 Winegard Rd.<br />
-              Orlando, FL 32809
+              {t("Address")}<br />
+              {t("City")}
             </address>
             <div className="mt-4">
               <p className={`${TrajanProFont.className} text-white/80 text-xs font-semibold tracking-widest uppercase mb-2`}>

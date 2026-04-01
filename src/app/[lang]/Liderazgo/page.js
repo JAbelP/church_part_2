@@ -14,27 +14,19 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-// ─── Edit leadership here ─────────────────────────────────────────────────────
-const leadership = {
-  pastorHeader: "Senior Pastor",
-  pastor: { Name: "Tomas & Ingrid Ramirez", photo: "/Liderazgo/pastors.webp" },
-
-  associateHeader: "Associate Pastor",
-  associate: { Name: "Aldo & Brenda Colon", photo: "/Liderazgo/associate.jpg" },
-
-  deaconsHeader: "Deacons",
-  deacons: [
-    { Name: "Wellington & Marcia De Jesus", photo: "/Liderazgo/decon1.webp" },
-    { Name: "Jose & Ana Paula De La Rosa", photo: "/Liderazgo/decon2.webp" },
-  ],
-
-  worshipHeader: "Worship Leader",
-  worshipLeader: { Name: "Moisés Ramirez", photo: "/Liderazgo/worship.webp" },
-};
-// ─────────────────────────────────────────────────────────────────────────────
-
 export default async function Liderazgo({ params: { lang } }) {
   const t = await getTranslations({ locale: lang, namespace: "Metadata" });
+  const tL = await getTranslations({ locale: lang, namespace: "Leadeship" });
+
+  // ─── Edit leadership here ───────────────────────────────────────────────────
+  const pastor = { Name: "Tomas & Ingrid Ramirez", photo: "/Liderazgo/pastors.webp" };
+  const associate = { Name: "Aldo & Brenda Colon", photo: "/Liderazgo/associate.jpg" };
+  const deacons = [
+    { Name: "Wellington & Marcia De Jesus", photo: "/Liderazgo/decon1.webp" },
+    { Name: "Jose & Ana Paula De La Rosa", photo: "/Liderazgo/decon2.webp" },
+  ];
+  const worshipLeader = { Name: "Moisés Ramirez", photo: "/Liderazgo/worship.webp" };
+  // ───────────────────────────────────────────────────────────────────────────
 
   return (
     <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
@@ -52,28 +44,28 @@ export default async function Liderazgo({ params: { lang } }) {
 
         <section>
           <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
-            {leadership.pastorHeader}
+            {tL("Senior Pastor")}
           </h2>
           <div className="flex justify-center">
-            <SubEyeCatch names={leadership.pastor.Name} imageLocation={leadership.pastor.photo} altText={leadership.pastor.Name} />
+            <SubEyeCatch names={pastor.Name} imageLocation={pastor.photo} altText={pastor.Name} />
           </div>
         </section>
 
         <section>
           <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
-            {leadership.associateHeader}
+            {tL("Associate Pastor")}
           </h2>
           <div className="flex justify-center">
-            <SubEyeCatch names={leadership.associate.Name} imageLocation={leadership.associate.photo} altText={leadership.associate.Name} />
+            <SubEyeCatch names={associate.Name} imageLocation={associate.photo} altText={associate.Name} />
           </div>
         </section>
 
         <section>
           <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
-            {leadership.deaconsHeader}
+            {tL("Deacons")}
           </h2>
           <div className="flex flex-col md:flex-row md:justify-evenly md:flex-wrap gap-8">
-            {leadership.deacons.map((deacon) => (
+            {deacons.map((deacon) => (
               <SubEyeCatch key={deacon.Name} names={deacon.Name} imageLocation={deacon.photo} altText={deacon.Name} />
             ))}
           </div>
@@ -81,10 +73,10 @@ export default async function Liderazgo({ params: { lang } }) {
 
         <section>
           <h2 className={`${CopperplateFont.className} text-blue-950 text-lg md:text-2xl tracking-widest uppercase text-center mb-8 pb-2 border-b border-red-600/30`}>
-            {leadership.worshipHeader}
+            {tL("Worship Leader")}
           </h2>
           <div className="flex justify-center">
-            <SubEyeCatch names={leadership.worshipLeader.Name} imageLocation={leadership.worshipLeader.photo} altText={leadership.worshipLeader.Name} />
+            <SubEyeCatch names={worshipLeader.Name} imageLocation={worshipLeader.photo} altText={worshipLeader.Name} />
           </div>
         </section>
 

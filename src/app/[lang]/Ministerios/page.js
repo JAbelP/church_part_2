@@ -14,58 +14,23 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-// ─── Edit ministries here ─────────────────────────────────────────────────────
-const ministries = [
-  {
-    title: "Evangelism",
-    description: "Bringing the Good News of Jesus Christ to our community and beyond.",
-    image: "/SoyNuevoImage/OutSideTheChurch.jpg",
-  },
-  {
-    title: "Worship & Praise",
-    description: "Enriching our spiritual life through music and corporate worship.",
-    image: "/SoyNuevoImage/NewEyeCatch.jpg",
-  },
-  {
-    title: "Christian Education",
-    description: "Growing together in the knowledge and faith of Jesus Christ.",
-    image: "/SoyNuevoImage/OutSideTheChurch.png",
-  },
-  {
-    title: "Missions",
-    description: "Responding to Christ's call to carry the Gospel to the ends of the earth.",
-    image: "/SoyNuevoImage/OutSideTheChurch.jpg",
-  },
-  {
-    title: "Prayer",
-    description: "Sustaining the spiritual life of the church through constant, fervent prayer.",
-    image: "/SoyNuevoImage/NewEyeCatch.jpg",
-  },
-  {
-    title: "Men's Ministry",
-    description: "Connecting men with God, His Word, and each other.",
-    image: "/SoyNuevoImage/OutSideTheChurch.png",
-  },
-  {
-    title: "Women's Ministry",
-    description: "Empowering women to grow in faith and impact their homes and community.",
-    image: "/SoyNuevoImage/OutSideTheChurch.jpg",
-  },
-  {
-    title: "Youth Ministry",
-    description: "Capturing the hearts of young people through the love of Jesus.",
-    image: "/SoyNuevoImage/NewEyeCatch.jpg",
-  },
-  {
-    title: "Children's Ministry",
-    description: "Leading children to love Jesus and be filled with the Holy Spirit.",
-    image: "/SoyNuevoImage/OutSideTheChurch.png",
-  },
-];
-// ─────────────────────────────────────────────────────────────────────────────
-
 export default async function Ministerios({ params: { lang } }) {
   const t = await getTranslations({ locale: lang, namespace: "Metadata" });
+  const tM = await getTranslations({ locale: lang, namespace: "Minstries" });
+
+  // ─── Edit ministries here ─────────────────────────────────────────────────
+  const ministries = [
+    { titleKey: "Evangelism Title", descKey: "Evangelism Short", image: "/SoyNuevoImage/OutSideTheChurch.jpg" },
+    { titleKey: "Worship Title", descKey: "Worship Short", image: "/SoyNuevoImage/NewEyeCatch.jpg" },
+    { titleKey: "Christian Education Title", descKey: "Christian Education Short", image: "/SoyNuevoImage/OutSideTheChurch.png" },
+    { titleKey: "Missions Title", descKey: "Missions Short", image: "/SoyNuevoImage/OutSideTheChurch.jpg" },
+    { titleKey: "Prayer Title", descKey: "Prayer Short", image: "/SoyNuevoImage/NewEyeCatch.jpg" },
+    { titleKey: "Mens Ministry Title", descKey: "Mens Ministry Short", image: "/SoyNuevoImage/OutSideTheChurch.png" },
+    { titleKey: "Womens Ministry Title", descKey: "Womens Ministry Short", image: "/SoyNuevoImage/OutSideTheChurch.jpg" },
+    { titleKey: "Youth Ministry Title", descKey: "Youth Ministry Short", image: "/SoyNuevoImage/NewEyeCatch.jpg" },
+    { titleKey: "Childrens Ministry Title", descKey: "Childrens Ministry Short", image: "/SoyNuevoImage/OutSideTheChurch.png" },
+  ];
+  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <main className="bg-white min-h-screen flex flex-col text-black overflow-x-hidden">
@@ -82,9 +47,9 @@ export default async function Ministerios({ params: { lang } }) {
       <section className="py-12">
         {ministries.map((item) => (
           <EyeCatch
-            key={item.title}
-            title={item.title}
-            desc={item.description}
+            key={item.titleKey}
+            title={tM(item.titleKey)}
+            desc={tM(item.descKey)}
             imageLocation={item.image}
           />
         ))}

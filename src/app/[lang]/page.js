@@ -17,29 +17,29 @@ export async function generateMetadata({ params: { locale } }) {
   };
 }
 
-const featureCards = [
-  {
-    Title: "Leadership",
-    description: "Meet the pastors and leaders guiding our congregation.",
-    imageSource: "/SoyNuevoImage/OutSideTheChurch.jpg",
-    Url: "/Liderazgo",
-  },
-  {
-    Title: "Ministries",
-    description: "Discover the many ways to serve and grow in faith.",
-    imageSource: "/SoyNuevoImage/NewEyeCatch.jpg",
-    Url: "/Ministerios",
-  },
-  {
-    Title: "Who Are We",
-    description: "Learn about our mission, vision and values.",
-    imageSource: "/SoyNuevoImage/OutSideTheChurch.png",
-    Url: "/QuienesSomos",
-  },
-];
-
 export default async function Home({ params: { lang } }) {
   const t = await getTranslations({ locale: lang, namespace: "Home" });
+
+  const featureCards = [
+    {
+      Title: t("Leadership"),
+      description: t("Leadership Desc"),
+      imageSource: "/SoyNuevoImage/OutSideTheChurch.jpg",
+      Url: "/Liderazgo",
+    },
+    {
+      Title: t("Ministries"),
+      description: t("Ministries Desc"),
+      imageSource: "/SoyNuevoImage/NewEyeCatch.jpg",
+      Url: "/Ministerios",
+    },
+    {
+      Title: t("About Us"),
+      description: t("Who Are We Desc"),
+      imageSource: "/SoyNuevoImage/OutSideTheChurch.png",
+      Url: "/QuienesSomos",
+    },
+  ];
 
   return (
     <main className="bg-white overflow-x-hidden flex flex-col text-black">
